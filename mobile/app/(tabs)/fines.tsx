@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -76,6 +76,8 @@ export default function FinesScreen() {
   const [selectedVehicleClass, setSelectedVehicleClass] = useState<string | null>(null);
   const [selectedOffenceCode, setSelectedOffenceCode] = useState<string | null>(null);
   const [challanResult, setChallanResult] = useState<ChallanResult | null>(null);
+  const [activeTab, setActiveTab] = useState<'search' | 'calc' | 'rules'>('search');
+
 
   // Some jurisdictions' fine schedules genuinely don't differentiate by vehicle type (every
   // fine is filed as vehicle_class='ALL') — forcing a vehicle-type choice there would be fake
@@ -267,506 +269,476 @@ export default function FinesScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#1c1c1c" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t('challan_search')}</Text>
+        <Text style={styles.headerTitle}>Traffic Registry</Text>
         <View style={styles.locationPill}>
-          <Ionicons name="location" size={12} color="#d97706" />
-          <Text style={styles.locationText}>National Registry</Text>
+          <Ionicons name="location" size={12} color="#0d9488" />
+          <Text style={styles.locationText}>{activeTab === 'calc' ? 'Calculator' : activeTab === 'rules' ? 'Rule Book' : 'Challan Lookup'}</Text>
         </View>
       </View>
 
+      {/* Segmented Tab Selector */}
+      <View style={styles.tabSelector}>
+        <TouchableOpacity 
+          style={[styles.tabBtn, activeTab === 'search' && styles.tabBtnActive]} 
+          onPress={() => setActiveTab('search')}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="search" size={16} color={activeTab === 'search' ? '#fff' : '#78716c'} />
+          <Text style={[styles.tabBtnText, activeTab === 'search' && styles.tabBtnTextActive]}>Lookup</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.tabBtn, activeTab === 'calc' && styles.tabBtnActive]} 
+          onPress={() => setActiveTab('calc')}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="calculator" size={16} color={activeTab === 'calc' ? '#fff' : '#78716c'} />
+          <Text style={[styles.tabBtnText, activeTab === 'calc' && styles.tabBtnTextActive]}>Calculator</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.tabBtn, activeTab === 'rules' && styles.tabBtnActive]} 
+          onPress={() => setActiveTab('rules')}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="book" size={16} color={activeTab === 'rules' ? '#fff' : '#78716c'} />
+          <Text style={[styles.tabBtnText, activeTab === 'rules' && styles.tabBtnTextActive]}>Rules</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Text style={styles.description}>
-          {t('challan_desc_long')}
-        </Text>
 
-        {/* Card 1: Vehicle Search */}
-        <View style={styles.searchCard}>
-          
-          <Text style={styles.inputLabel}>{t('vehicle_reg_number')}</Text>
-          <View style={styles.inputWrapper}>
-            <MaterialCommunityIcons name="car-cog" size={20} color="#6b7280" style={styles.inputIcon} />
-            <TextInput
-              style={[
-                styles.input,
-                Platform.OS === 'web' && { outlineStyle: 'none' } as any
-              ]}
-              placeholder="e.g. TN 09 BX 4421"
-              placeholderTextColor="#9ca3af"
-              value={vehicleNumber}
-              onChangeText={setVehicleNumber}
-              autoCapitalize="characters"
-              autoCorrect={false}
-            />
-            {vehicleNumber.length > 0 && (
-              <TouchableOpacity onPress={handleClear} style={{ marginRight: 8 }}>
-                <Ionicons name="close-circle" size={18} color="#9ca3af" />
-              </TouchableOpacity>
-            )}
-          </View>
-          
-          <TouchableOpacity 
-            style={[styles.searchButton, loading && styles.searchButtonDisabled]} 
-            onPress={handleLookup}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" size="small" />
-            ) : (
-              <>
-                <Text style={styles.searchButtonText}>{t('verify_fines')}</Text>
-                <Ionicons name="search" size={18} color="#fff" style={{ marginLeft: 6 }} />
-              </>
-            )}
-          </TouchableOpacity>
-
-          {/* Loading Indicator */}
-          {loading && (
-            <View style={styles.loaderContainer}>
-              <ActivityIndicator size="large" color="#d97706" />
-              <Text style={styles.loaderText}>Checking Parivahan databases...</Text>
-            </View>
-          )}
-
-          {/* Result Area */}
-          {result && (
-            <View style={styles.resultContainer}>
-              
-              {/* Demo Notice Banner */}
-              {result.demo && (
-                <View style={styles.demoNotice}>
-                  <Ionicons name="information-circle" size={16} color="#b45309" />
-                  <Text style={styles.demoNoticeText}>{result.demo_notice}</Text>
-                </View>
-              )}
-
-              {/* Vehicle Profile Summary */}
-              <View style={styles.profileCard}>
-                <View style={styles.profileHeader}>
-                  <View style={styles.profileInfo}>
-                    <Text style={styles.resultPlate}>{result.vehicle_number.toUpperCase()}</Text>
-                    <Text style={styles.resultOwner}>Owner: {result.owner}</Text>
-                    <Text style={styles.resultType}>{result.vehicle_type}</Text>
-                  </View>
-                  <View style={[styles.statusBadge, result.total_fine > 0 ? styles.statusBadgeRed : styles.statusBadgeGreen]}>
-                    <Text style={[styles.statusText, result.total_fine > 0 ? styles.statusTextRed : styles.statusTextGreen]}>
-                      {result.total_fine > 0 ? 'Fines Pending' : 'Clear'}
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={styles.divider} />
-
-                <View style={styles.totalFineRow}>
-                  <Text style={styles.totalLabel}>Total Outstanding</Text>
-                  <Text style={styles.totalValue}>₹{result.total_fine.toLocaleString()}</Text>
-                </View>
-              </View>
-
-              {/* Challans List */}
-              {result.pending_challans.length > 0 ? (
-                <View style={styles.challanListContainer}>
-                  <Text style={styles.sectionSubTitle}>PENDING VIOLATIONS ({result.pending_challans.length})</Text>
-                  
-                  {result.pending_challans.map((challan, index) => (
-                    <View key={index} style={styles.challanItem}>
-                      <View style={styles.challanLeft}>
-                        <View style={styles.violationIcon}>
-                          <MaterialCommunityIcons name="alert-circle-outline" size={20} color="#ef4444" />
-                        </View>
-                        <View style={styles.challanDetails}>
-                          <Text style={styles.violationTitle}>{challan.violation}</Text>
-                          <Text style={styles.violationLoc}>{challan.location}</Text>
-                          <Text style={styles.violationDate}>{challan.date}</Text>
-                        </View>
-                      </View>
-                      <Text style={styles.violationAmount}>₹{challan.amount}</Text>
-                    </View>
-                  ))}
-
-                  <TouchableOpacity 
-                    style={styles.payButton}
-                    onPress={() => Alert.alert('Payment Portal', 'Redirecting to secure gateway... (Mock)')}
-                  >
-                    <Text style={styles.payButtonText}>Pay All Challans</Text>
-                    <Ionicons name="card" size={18} color="#fff" style={{ marginLeft: 8 }} />
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={styles.clearContainer}>
-                  <View style={styles.checkWrapper}>
-                    <Ionicons name="checkmark-circle" size={48} color="#10b981" />
-                  </View>
-                  <Text style={styles.clearTitle}>Zero Pending Fines</Text>
-                  <Text style={styles.clearDesc}>No pending e-challans found for this vehicle. Drive safe and keep up the good work!</Text>
-                </View>
-              )}
-
-              <Text style={styles.lastUpdatedText}>
-                Last checked: {new Date(result.last_updated).toLocaleTimeString()}
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Calculate Penalty Header */}
-        <View style={styles.rulesSectionHeader}>
-          <Ionicons name="calculator" size={24} color="#d97706" />
-          <Text style={styles.rulesSectionTitle}>Calculate Penalty</Text>
-        </View>
-
-        {/* Global Challan Calculator */}
-        <View style={styles.calculatorCard}>
-          <View style={styles.jurisdictionRow}>
-            <View style={styles.jurisdictionPin}>
-              {challan.loading ? (
-                <Animated.View
-                  style={{
-                    opacity: radarAnim.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }),
-                    transform: [{ scale: radarAnim.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1.2] }) }],
-                  }}
-                >
-                  <Ionicons name="radio-outline" size={16} color="#d97706" />
-                </Animated.View>
-              ) : (
-                <Ionicons name="location" size={16} color="#d97706" />
-              )}
-            </View>
-            <Text style={styles.jurisdictionText} numberOfLines={1}>
-              {challan.loading
-                ? 'Detecting location…'
-                : `${challan.isManualJurisdiction ? 'Jurisdiction selected' : 'Geofence locked'}: ${challan.locationLabel}`}
+        {/* TAB 1: Challan Search */}
+        {activeTab === 'search' && (
+          <View>
+            <Text style={styles.description}>
+              {t('challan_desc_long')}
             </Text>
-            <TouchableOpacity
-              style={styles.jurisdictionChangeButton}
-              onPress={() => setCountryPickerVisible(true)}
-              accessibilityLabel="Check a different country or state"
-            >
-              <Text style={styles.jurisdictionChangeText}>Change</Text>
-            </TouchableOpacity>
-          </View>
 
-          {lawsBanner !== 'hidden' && (
-            <Animated.View style={[styles.lawsAppliedBanner, { opacity: lawsBannerAnim }]}>
-              {lawsBanner === 'loading' ? (
-                <>
-                  <ActivityIndicator size="small" color="#d97706" />
-                  <Text style={styles.lawsAppliedText}>Loading {jurisdictionShortName} laws…</Text>
-                </>
-              ) : (
-                <>
-                  <Ionicons name="checkmark-circle" size={16} color="#16a34a" />
-                  <Text style={styles.lawsAppliedText}>{jurisdictionShortName} laws applied</Text>
-                </>
-              )}
-            </Animated.View>
-          )}
-
-          {challan.zones.length > 0 && (
-            <View style={styles.zoneChipRow}>
-              {challan.zones.map((z) => (
-                <View key={z.zone_id} style={styles.zoneChip}>
-                  <Text style={styles.zoneChipText}>
-                    {z.zone_type.replace(/_/g, ' ')}{z.fine_multiplier > 1 ? ` · ${z.fine_multiplier}x fine` : ''}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
-
-          {challan.isOffline && (
-            <View style={styles.challanOfflineBanner}>
-              <Ionicons name="cloud-offline-outline" size={14} color="#92400e" />
-              <Text style={styles.challanOfflineText}>
-                Offline — showing the last synced fine data{Platform.OS === 'web' ? ' from this session' : ''}.
-              </Text>
-            </View>
-          )}
-
-          {challan.loading ? (
-            <View style={styles.loaderContainer}>
-              <ActivityIndicator size="small" color="#d97706" />
-              <Text style={styles.loaderText}>Finding your jurisdiction…</Text>
-            </View>
-          ) : challan.error ? (
-            <Text style={{ marginTop: 8, color: '#6b7280', fontSize: 13, textAlign: 'center' }}>{challan.error}</Text>
-          ) : (
-            <>
-              {needsVehicleStep && (
-                <View style={styles.calcStep}>
-                  <View style={styles.calcStepHeader}>
-                    <View style={[styles.stepBadge, styles.stepBadgeActive]}>
-                      <Text style={styles.stepBadgeText}>1</Text>
-                    </View>
-                    <Text style={styles.calcStepLabel}>VEHICLE TYPE</Text>
-                  </View>
-                  <View style={styles.vehicleChipRow}>
-                    {challan.vehicleClasses.map((vc) => {
-                      const active = selectedVehicleClass === vc;
-                      return (
-                        <TouchableOpacity
-                          key={vc}
-                          style={[styles.vehicleChip, active && styles.vehicleChipActive]}
-                          onPress={() => {
-                            setSelectedVehicleClass(vc);
-                            setSelectedOffenceCode(null);
-                            setChallanResult(null);
-                          }}
-                          accessibilityLabel={`Vehicle type: ${labelForVehicleClass(vc)}`}
-                        >
-                          <MaterialCommunityIcons
-                            name={VEHICLE_ICONS[vc] || 'car-outline'}
-                            size={22}
-                            color={active ? '#fff' : '#d97706'}
-                          />
-                          <Text style={[styles.vehicleChipText, active && styles.vehicleChipTextActive]}>
-                            {labelForVehicleClass(vc)}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                </View>
-              )}
-
-              <Animated.View
-                style={[
-                  styles.calcStep,
-                  {
-                    opacity: violationStepAnim,
-                    pointerEvents: vehicleStepDone ? 'auto' : 'none',
-                    transform: [
-                      { translateY: violationStepAnim.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) },
-                    ],
-                  },
-                ]}
+            <View style={styles.searchCard}>
+              <Text style={styles.inputLabel}>{t('vehicle_reg_number')}</Text>
+              <View style={styles.inputWrapper}>
+                <MaterialCommunityIcons name="car-cog" size={20} color="#78716c" style={styles.inputIcon} />
+                <TextInput
+                  style={[
+                    styles.input,
+                    Platform.OS === 'web' && { outlineStyle: 'none' } as any
+                  ]}
+                  placeholder="e.g. TN 09 BX 4421"
+                  placeholderTextColor="#a8a29e"
+                  value={vehicleNumber}
+                  onChangeText={setVehicleNumber}
+                  autoCapitalize="characters"
+                  autoCorrect={false}
+                />
+                {vehicleNumber.length > 0 && (
+                  <TouchableOpacity onPress={handleClear} style={{ marginRight: 8 }}>
+                    <Ionicons name="close-circle" size={18} color="#a8a29e" />
+                  </TouchableOpacity>
+                )}
+              </View>
+              
+              <TouchableOpacity 
+                style={[styles.searchButton, loading && styles.searchButtonDisabled]} 
+                onPress={handleLookup}
+                disabled={loading}
               >
-                <View style={styles.calcStepHeader}>
-                  <View style={[styles.stepBadge, vehicleStepDone && styles.stepBadgeActive]}>
-                    <Text style={styles.stepBadgeText}>{needsVehicleStep ? 2 : 1}</Text>
-                  </View>
-                  <Text style={styles.calcStepLabel}>VIOLATION TYPE</Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.violationPickerButton}
-                  onPress={() => vehicleStepDone && setViolationPickerVisible(true)}
-                  disabled={!vehicleStepDone}
-                  accessibilityLabel="Select violation type"
-                >
-                  <View style={styles.violationPickerIcon}>
-                    <Ionicons name="warning-outline" size={18} color="#d97706" />
-                  </View>
-                  <Text
-                    style={[
-                      styles.violationPickerText,
-                      !selectedOffenceCode && styles.violationPickerPlaceholder,
-                    ]}
-                  >
-                    {selectedOffenceCode ? labelForOffence(selectedOffenceCode) : 'Tap to choose a violation'}
-                  </Text>
-                  <Ionicons name="chevron-forward" size={18} color="#9ca3af" />
-                </TouchableOpacity>
-              </Animated.View>
-
-              <TouchableOpacity
-                style={[
-                  styles.searchButton,
-                  { marginTop: 16 },
-                  (!vehicleStepDone || !selectedOffenceCode || calculating) && styles.searchButtonDisabled,
-                ]}
-                onPress={handleCalculateFine}
-                disabled={!vehicleStepDone || !selectedOffenceCode || calculating}
-                accessibilityLabel="Calculate fine"
-              >
-                {calculating ? (
-                  <>
-                    <ActivityIndicator size="small" color="#fff" style={{ marginRight: 8 }} />
-                    <Text style={styles.searchButtonText}>Calculating…</Text>
-                  </>
+                {loading ? (
+                  <ActivityIndicator color="#fff" size="small" />
                 ) : (
                   <>
-                    <Ionicons name="calculator" size={16} color="#fff" style={{ marginRight: 8 }} />
-                    <Text style={styles.searchButtonText}>Calculate Fine</Text>
+                    <Text style={styles.searchButtonText}>{t('verify_fines')}</Text>
+                    <Ionicons name="search" size={18} color="#fff" style={{ marginLeft: 6 }} />
                   </>
                 )}
               </TouchableOpacity>
 
-              {challanResult && (
+              {loading && (
+                <View style={styles.loaderContainer}>
+                  <ActivityIndicator size="large" color="#0d9488" />
+                  <Text style={styles.loaderText}>Checking Parivahan databases...</Text>
+                </View>
+              )}
+
+              {result && (
+                <View style={styles.resultContainer}>
+                  {result.demo && (
+                    <View style={styles.demoNotice}>
+                      <Ionicons name="information-circle" size={16} color="#b45309" />
+                      <Text style={styles.demoNoticeText}>{result.demo_notice}</Text>
+                    </View>
+                  )}
+
+                  <View style={styles.profileCard}>
+                    <View style={styles.profileHeader}>
+                      <View style={styles.profileInfo}>
+                        <Text style={styles.resultPlate}>{result.vehicle_number.toUpperCase()}</Text>
+                        <Text style={styles.resultOwner}>Owner: {result.owner}</Text>
+                        <Text style={styles.resultType}>{result.vehicle_type}</Text>
+                      </View>
+                      <View style={[styles.statusBadge, result.total_fine > 0 ? styles.statusBadgeRed : styles.statusBadgeGreen]}>
+                        <Text style={[styles.statusText, result.total_fine > 0 ? styles.statusTextRed : styles.statusTextGreen]}>
+                          {result.total_fine > 0 ? 'Fines Pending' : 'Clear'}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.divider} />
+
+                    <View style={styles.totalFineRow}>
+                      <Text style={styles.totalLabel}>Total Outstanding</Text>
+                      <Text style={styles.totalValue}>₹{result.total_fine.toLocaleString()}</Text>
+                    </View>
+                  </View>
+
+                  {result.pending_challans.length > 0 ? (
+                    <View style={styles.challanListContainer}>
+                      <Text style={styles.sectionSubTitle}>PENDING VIOLATIONS ({result.pending_challans.length})</Text>
+                      
+                      {result.pending_challans.map((challan, index) => (
+                        <View key={index} style={styles.challanItem}>
+                          <View style={styles.challanLeft}>
+                            <View style={styles.violationIcon}>
+                              <MaterialCommunityIcons name="alert-circle-outline" size={20} color="#dc2626" />
+                            </View>
+                            <View style={styles.challanDetails}>
+                              <Text style={styles.violationTitle}>{challan.violation}</Text>
+                              <Text style={styles.violationLoc}>{challan.location}</Text>
+                              <Text style={styles.violationDate}>{challan.date}</Text>
+                            </View>
+                          </View>
+                          <Text style={styles.violationAmount}>₹{challan.amount}</Text>
+                        </View>
+                      ))}
+
+                      <TouchableOpacity 
+                        style={styles.payButton}
+                        onPress={() => Alert.alert('Payment Portal', 'Redirecting to secure gateway... (Mock)')}
+                      >
+                        <Text style={styles.payButtonText}>Pay All Challans</Text>
+                        <Ionicons name="card" size={18} color="#fff" style={{ marginLeft: 8 }} />
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <View style={styles.clearContainer}>
+                      <View style={styles.checkWrapper}>
+                        <Ionicons name="checkmark-circle" size={48} color="#16a34a" />
+                      </View>
+                      <Text style={styles.clearTitle}>Zero Pending Fines</Text>
+                      <Text style={styles.clearDesc}>No pending e-challans found for this vehicle. Drive safe and keep up the good work!</Text>
+                    </View>
+                  )}
+
+                  <Text style={styles.lastUpdatedText}>
+                    Last checked: {new Date(result.last_updated).toLocaleTimeString()}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+        )}
+
+        {/* TAB 2: Penalty Calculator */}
+        {activeTab === 'calc' && (
+          <View style={styles.calculatorCard}>
+            <View style={styles.jurisdictionRow}>
+              <View style={styles.jurisdictionPin}>
+                {challan.loading ? (
+                  <Animated.View
+                    style={{
+                      opacity: radarAnim.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }),
+                      transform: [{ scale: radarAnim.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1.2] }) }],
+                    }}
+                  >
+                    <Ionicons name="radio-outline" size={16} color="#d97706" />
+                  </Animated.View>
+                ) : (
+                  <Ionicons name="location" size={16} color="#d97706" />
+                )}
+              </View>
+              <Text style={styles.jurisdictionText} numberOfLines={1}>
+                {challan.loading
+                  ? 'Detecting location…'
+                  : `${challan.isManualJurisdiction ? 'Jurisdiction selected' : 'Geofence locked'}: ${challan.locationLabel}`}
+              </Text>
+              <TouchableOpacity
+                style={styles.jurisdictionChangeButton}
+                onPress={() => setCountryPickerVisible(true)}
+                accessibilityLabel="Check a different country or state"
+              >
+                <Text style={styles.jurisdictionChangeText}>Change</Text>
+              </TouchableOpacity>
+            </View>
+
+            {lawsBanner !== 'hidden' && (
+              <Animated.View style={[styles.lawsAppliedBanner, { opacity: lawsBannerAnim }]}>
+                {lawsBanner === 'loading' ? (
+                  <>
+                    <ActivityIndicator size="small" color="#d97706" />
+                    <Text style={styles.lawsAppliedText}>Loading {jurisdictionShortName} laws…</Text>
+                  </>
+                ) : (
+                  <>
+                    <Ionicons name="checkmark-circle" size={16} color="#16a34a" />
+                    <Text style={styles.lawsAppliedText}>{jurisdictionShortName} laws applied</Text>
+                  </>
+                )}
+              </Animated.View>
+            )}
+
+            {challan.zones.length > 0 && (
+              <View style={styles.zoneChipRow}>
+                {challan.zones.map((z) => (
+                  <View key={z.zone_id} style={styles.zoneChip}>
+                    <Text style={styles.zoneChipText}>
+                      {z.zone_type.replace(/_/g, ' ')}{z.fine_multiplier > 1 ? ` · ${z.fine_multiplier}x fine` : ''}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {challan.isOffline && (
+              <View style={styles.challanOfflineBanner}>
+                <Ionicons name="cloud-offline-outline" size={14} color="#92400e" />
+                <Text style={styles.challanOfflineText}>
+                  Offline — showing last synced fine data.
+                </Text>
+              </View>
+            )}
+
+            {challan.loading ? (
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator size="small" color="#0d9488" />
+                <Text style={styles.loaderText}>Finding your jurisdiction…</Text>
+              </View>
+            ) : (
+              <>
+                {needsVehicleStep && (
+                  <View style={styles.calcStep}>
+                    <View style={styles.calcStepHeader}>
+                      <View style={[styles.stepBadge, styles.stepBadgeActive]}>
+                        <Text style={styles.stepBadgeText}>1</Text>
+                      </View>
+                      <Text style={styles.calcStepLabel}>VEHICLE TYPE</Text>
+                    </View>
+                    <View style={styles.vehicleChipRow}>
+                      {challan.vehicleClasses.map((vc) => {
+                        const active = selectedVehicleClass === vc;
+                        return (
+                          <TouchableOpacity
+                            key={vc}
+                            style={[styles.vehicleChip, active && styles.vehicleChipActive]}
+                            onPress={() => {
+                              setSelectedVehicleClass(vc);
+                              setSelectedOffenceCode(null);
+                              setChallanResult(null);
+                            }}
+                          >
+                            <MaterialCommunityIcons
+                              name={VEHICLE_ICONS[vc] || 'car-outline'}
+                              size={22}
+                              color={active ? '#fff' : '#0d9488'}
+                            />
+                            <Text style={[styles.vehicleChipText, active && styles.vehicleChipTextActive]}>
+                              {labelForVehicleClass(vc)}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
+
                 <Animated.View
                   style={[
-                    styles.challanResultCard,
+                    styles.calcStep,
                     {
-                      opacity: resultAnim,
+                      opacity: violationStepAnim,
+                      pointerEvents: vehicleStepDone ? 'auto' : 'none',
                       transform: [
-                        { translateY: resultAnim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) },
+                        { translateY: violationStepAnim.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) },
                       ],
                     },
                   ]}
                 >
-                  <View style={styles.challanResultIconWrap}>
-                    <Ionicons name="receipt-outline" size={20} color="#d97706" />
+                  <View style={styles.calcStepHeader}>
+                    <View style={[styles.stepBadge, vehicleStepDone && styles.stepBadgeActive]}>
+                      <Text style={styles.stepBadgeText}>{needsVehicleStep ? 2 : 1}</Text>
+                    </View>
+                    <Text style={styles.calcStepLabel}>VIOLATION TYPE</Text>
                   </View>
-                  <Text style={styles.challanAmountText}>
-                    {formatAmount(challanResult.amount, challanResult.currency)}
-                  </Text>
-                  {challanResult.sectionRef && (
-                    <Text style={styles.challanSectionText}>Legal Reference: {challanResult.sectionRef}</Text>
-                  )}
-                  {challanResult.zoneMultiplier > 1 && (
-                    <Text style={styles.challanZoneNote}>
-                      Includes {challanResult.zoneMultiplier}x zone multiplier ({formatAmount(challanResult.baseAmount, challanResult.currency)} base fine)
+                  <TouchableOpacity
+                    style={styles.violationPickerButton}
+                    onPress={() => vehicleStepDone && setViolationPickerVisible(true)}
+                    disabled={!vehicleStepDone}
+                  >
+                    <View style={styles.violationPickerIcon}>
+                      <Ionicons name="warning-outline" size={18} color="#0d9488" />
+                    </View>
+                    <Text
+                      style={[
+                        styles.violationPickerText,
+                        !selectedOffenceCode && styles.violationPickerPlaceholder,
+                      ]}
+                    >
+                      {selectedOffenceCode ? labelForOffence(selectedOffenceCode) : 'Tap to choose a violation'}
                     </Text>
-                  )}
+                    <Ionicons name="chevron-forward" size={18} color="#a8a29e" />
+                  </TouchableOpacity>
                 </Animated.View>
-              )}
-            </>
-          )}
-        </View>
 
+                <TouchableOpacity
+                  style={[
+                    styles.searchButton,
+                    { marginTop: 24 },
+                    (!vehicleStepDone || !selectedOffenceCode || calculating) && styles.searchButtonDisabled,
+                  ]}
+                  onPress={handleCalculateFine}
+                  disabled={!vehicleStepDone || !selectedOffenceCode || calculating}
+                >
+                  {calculating ? (
+                    <>
+                      <ActivityIndicator size="small" color="#fff" style={{ marginRight: 8 }} />
+                      <Text style={styles.searchButtonText}>Calculating…</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Ionicons name="calculator" size={16} color="#fff" style={{ marginRight: 8 }} />
+                      <Text style={styles.searchButtonText}>Calculate Fine</Text>
+                    </>
+                  )}
+                </TouchableOpacity>
 
-        {/* Traffic Rules & Guidelines Header */}
-        <View style={styles.rulesSectionHeader}>
-          <Ionicons name="book" size={24} color="#d97706" />
-          <Text style={styles.rulesSectionTitle}>Traffic Rules & Guidelines</Text>
-        </View>
-
-        {/* BROWSE BY CATEGORY */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>{t('browse_category')}</Text>
-
-          <View style={styles.gridContainer}>
-            {/* Category 1 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Speed & limits')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#FFEDD5' }]}>
-                <Ionicons name="flash" size={20} color="#C2410C" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('speed_limits')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Speed & limits']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 2 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Safety gear')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#FEF3C7' }]}>
-                <Ionicons name="car-sport" size={20} color="#B45309" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('safety_gear')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Safety gear']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 3 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Lane & overtaking')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#E0F2FE' }]}>
-                <Ionicons name="car" size={20} color="#0369A1" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('lane_overtaking')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Lane & overtaking']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 4 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Signal & signage')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#DCFCE7' }]}>
-                <Ionicons name="medical" size={20} color="#15803D" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('signal_signage')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Signal & signage']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 5 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Documents')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#F3F4F6' }]}>
-                <Ionicons name="document-text" size={20} color="#4B5563" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('documents_paperwork')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Documents']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 6 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Distraction & DUI')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#FCE7F3' }]}>
-                <Ionicons name="eye-off" size={20} color="#BE185D" />
-              </View>
-              <Text style={styles.categoryTitle}>{t('dui_substance')}</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Distraction & DUI']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 7 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Parking & Halting')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#E0E7FF' }]}>
-                <Ionicons name="car-sport-outline" size={20} color="#4338CA" />
-              </View>
-              <Text style={styles.categoryTitle}>Parking & Halting</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Parking & Halting']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 8 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Commercial & Load')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#FEF08A' }]}>
-                <Ionicons name="bus-outline" size={20} color="#A16207" />
-              </View>
-              <Text style={styles.categoryTitle}>Commercial & Load</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Commercial & Load']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 9 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Emissions & Health')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#D9F99D' }]}>
-                <Ionicons name="leaf-outline" size={20} color="#4D7C0F" />
-              </View>
-              <Text style={styles.categoryTitle}>Emissions & Health</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Emissions & Health']?.acts.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Category 10 */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => handleOpenCategory('Vehicle Modifications')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#F3E8FF' }]}>
-                <Ionicons name="build-outline" size={20} color="#7E22CE" />
-              </View>
-              <Text style={styles.categoryTitle}>Modifications</Text>
-              <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Vehicle Modifications']?.acts?.length || 0} {t('rules_count')}</Text>
-            </TouchableOpacity>
-
-            {/* Traffic Signs Card */}
-            <TouchableOpacity 
-              style={styles.categoryCard}
-              onPress={() => router.push('/signs')}
-            >
-              <View style={[styles.iconWrapper, { backgroundColor: '#FEE2E2' }]}>
-                <Ionicons name="warning-outline" size={20} color="#DC2626" />
-              </View>
-              <Text style={styles.categoryTitle}>Traffic Signs</Text>
-              <Text style={styles.categorySubtitle}>View all</Text>
-            </TouchableOpacity>
+                {challanResult && (
+                  <Animated.View
+                    style={[
+                      styles.challanResultCard,
+                      {
+                        opacity: resultAnim,
+                        transform: [
+                          { translateY: resultAnim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) },
+                        ],
+                      },
+                    ]}
+                  >
+                    <View style={styles.challanResultIconWrap}>
+                      <Ionicons name="receipt-outline" size={20} color="#d97706" />
+                    </View>
+                    <Text style={styles.challanAmountText}>
+                      {formatAmount(challanResult.amount, challanResult.currency)}
+                    </Text>
+                    {challanResult.sectionRef && (
+                      <Text style={styles.challanSectionText}>Legal Reference: {challanResult.sectionRef}</Text>
+                    )}
+                    {challanResult.zoneMultiplier > 1 && (
+                      <Text style={styles.challanZoneNote}>
+                        Includes {challanResult.zoneMultiplier}x zone multiplier ({formatAmount(challanResult.baseAmount, challanResult.currency)} base fine)
+                      </Text>
+                    )}
+                  </Animated.View>
+                )}
+              </>
+            )}
           </View>
-        </View>
+        )}
+
+        {/* TAB 3: Browse Rules */}
+        {activeTab === 'rules' && (
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>{t('browse_category')}</Text>
+
+            <View style={styles.gridContainer}>
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Speed & limits')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#ccfbf1' }]}>
+                  <Ionicons name="flash" size={20} color="#0d9488" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('speed_limits')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Speed & limits']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Safety gear')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#fff7ed' }]}>
+                  <Ionicons name="car-sport" size={20} color="#ea580c" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('safety_gear')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Safety gear']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Lane & overtaking')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#fffbeb' }]}>
+                  <Ionicons name="car" size={20} color="#d97706" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('lane_overtaking')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Lane & overtaking']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Signal & signage')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#f0fdf4' }]}>
+                  <Ionicons name="medical" size={20} color="#16a34a" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('signal_signage')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Signal & signage']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Documents')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#f0ebe3' }]}>
+                  <Ionicons name="document-text" size={20} color="#78716c" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('documents_paperwork')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Documents']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Distraction & DUI')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#fff1f2' }]}>
+                  <Ionicons name="eye-off" size={20} color="#dc2626" />
+                </View>
+                <Text style={styles.categoryTitle}>{t('dui_substance')}</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Distraction & DUI']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Parking & Halting')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#f0ebe3' }]}>
+                  <Ionicons name="car-sport-outline" size={20} color="#78716c" />
+                </View>
+                <Text style={styles.categoryTitle}>Parking & Halting</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Parking & Halting']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Commercial & Load')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#fff7ed' }]}>
+                  <Ionicons name="bus-outline" size={20} color="#ea580c" />
+                </View>
+                <Text style={styles.categoryTitle}>Commercial & Load</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Commercial & Load']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Emissions & Health')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#f0fdf4' }]}>
+                  <Ionicons name="leaf-outline" size={20} color="#16a34a" />
+                </View>
+                <Text style={styles.categoryTitle}>Emissions & Health</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Emissions & Health']?.acts.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => handleOpenCategory('Vehicle Modifications')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#ccfbf1' }]}>
+                  <Ionicons name="build-outline" size={20} color="#0d9488" />
+                </View>
+                <Text style={styles.categoryTitle}>Modifications</Text>
+                <Text style={styles.categorySubtitle}>{CATEGORY_DETAILS['Vehicle Modifications']?.acts?.length || 0} rules</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.categoryCard} onPress={() => router.push('/signs')}>
+                <View style={[styles.iconWrapper, { backgroundColor: '#fff1f2' }]}>
+                  <Ionicons name="warning-outline" size={20} color="#dc2626" />
+                </View>
+                <Text style={styles.categoryTitle}>Traffic Signs</Text>
+                <Text style={styles.categorySubtitle}>View all</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
       </ScrollView>
 
@@ -947,9 +919,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccfbf1', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 16,
   },
   locationText: { fontSize: 11, fontWeight: '700', color: '#0d9488', marginLeft: 4 },
+  tabSelector: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 4,
+    marginHorizontal: 16,
+    marginVertical: 12,
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
+  },
+  tabBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 12,
+    gap: 6,
+  },
+  tabBtnActive: {
+    backgroundColor: '#0d9488',
+  },
+  tabBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#78716c',
+  },
+  tabBtnTextActive: {
+    color: '#ffffff',
+  },
   content: { flex: 1 },
   scrollContent: { padding: 16, paddingBottom: 80 },
   description: { fontSize: 14, color: '#78716c', lineHeight: 20, marginBottom: 24, fontWeight: '500' },
+
   searchCard: {
     backgroundColor: '#ffffff', borderRadius: 20, padding: 16,
     borderWidth: 1.5, borderColor: '#e7e5e4',
