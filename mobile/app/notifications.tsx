@@ -278,10 +278,50 @@ export default function NotificationsScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#fff',
+  safeArea: { flex: 1, backgroundColor: '#faf7f2' },
+  container: { flex: 1, backgroundColor: '#faf7f2' },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 20, paddingTop: 10, paddingBottom: 16,
+    backgroundColor: '#faf7f2', borderBottomWidth: 1.5, borderBottomColor: '#e7e5e4',
   },
+  backButton: { padding: 4 },
+  headerCenter: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1c1917' },
+  badge: { backgroundColor: '#dc2626', borderRadius: 10, paddingHorizontal: 7, paddingVertical: 2, minWidth: 20, alignItems: 'center' },
+  badgeText: { color: '#fff', fontSize: 11, fontWeight: '700' },
+  clearButton: { padding: 4 },
+  clearButtonText: { fontSize: 14, fontWeight: '600', color: '#d97706' },
+  centerContainer: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  loadingText: { fontSize: 14, color: '#a8a29e' },
+  errorBanner: {
+    flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#fff',
+    borderRadius: 12, padding: 12, marginBottom: 16, borderWidth: 1.5, borderColor: '#e7e5e4',
+  },
+  errorText: { flex: 1, fontSize: 12, color: '#a8a29e' },
+  scrollContent: { padding: 20, paddingBottom: 40 },
+  emptyContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 80 },
+  emptyText: { fontSize: 18, fontWeight: '700', color: '#1c1917', marginTop: 16 },
+  emptySubtitle: { fontSize: 14, color: '#78716c', textAlign: 'center', marginTop: 8, paddingHorizontal: 40, lineHeight: 20 },
+  notificationCard: {
+    backgroundColor: '#ffffff', borderRadius: 20, padding: 16, marginBottom: 16,
+    borderWidth: 1.5, borderColor: '#e7e5e4',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 6,
+    elevation: 2, position: 'relative',
+  },
+  dismissBtn: { position: 'absolute', top: 12, right: 12, zIndex: 1 },
+  cardHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingRight: 24 },
+  iconWrapper: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 12 },
+  titleContainer: { flex: 1 },
+  title: { fontSize: 15, fontWeight: '700', color: '#1c1917' },
+  time: { fontSize: 11, color: '#a8a29e', marginTop: 2 },
+  bodyText: { fontSize: 13, color: '#78716c', lineHeight: 18, marginBottom: 14, paddingLeft: 48 },
+  actionRow: { flexDirection: 'row', justifyContent: 'flex-end', paddingLeft: 48 },
+  actionButton: { flexDirection: 'row', alignItems: 'center', borderWidth: 1.5, borderRadius: 16, paddingVertical: 6, paddingHorizontal: 12, gap: 4 },
+  actionButtonText: { fontSize: 12, fontWeight: '700' },
+  footerHint: { textAlign: 'center', fontSize: 12, color: '#e7e5e4', marginTop: 4 },
+});
+
   container: {
     flex: 1,
     backgroundColor: '#FAF8F5',

@@ -1176,8 +1176,8 @@ function DocItem({
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1, backgroundColor: '#FAF8F5' },
+  safeArea: { flex: 1, backgroundColor: '#faf7f2' },
+  container: { flex: 1, backgroundColor: '#faf7f2' },
 
   // Header
   header: {
@@ -1187,24 +1187,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    backgroundColor: '#faf7f2',
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#e7e5e4',
   },
   backButton: { padding: 4 },
-  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1f2937' },
+  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1c1917' },
   addButton: { padding: 4 },
-  addButtonText: { fontSize: 15, fontWeight: '700', color: '#D97706' },
+  addButtonText: { fontSize: 15, fontWeight: '700', color: '#0d9488' },
 
   scrollContent: { paddingBottom: 40, paddingHorizontal: 20, paddingTop: 24 },
 
-  // Driving License Card (Pinned at the very top)
+  // Driving License Card
   licenseCardContainer: {
     marginBottom: 32,
     position: 'relative',
   },
   licenseCard: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#1c1917',
     borderRadius: 20,
     padding: 20,
     shadowColor: '#000',
@@ -1225,11 +1225,11 @@ const styles = StyleSheet.create({
   licenseType: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#9CA3AF',
+    color: '#a8a29e',
     letterSpacing: 1,
     marginBottom: 4,
   },
-  licenseCountry: { fontSize: 12, color: '#6B7280' },
+  licenseCountry: { fontSize: 12, color: '#78716c' },
   headerRightActionRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1239,29 +1239,29 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: 'rgba(217,119,6,0.3)',
+    backgroundColor: 'rgba(13,148,136,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#D97706',
+    borderColor: '#0d9488',
   },
   verifiedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(74,222,128,0.15)',
+    backgroundColor: '#dcfce7',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
     gap: 4,
     borderWidth: 1,
-    borderColor: 'rgba(74,222,128,0.3)',
+    borderColor: '#bbf7d0',
   },
-  verifiedText: { fontSize: 11, fontWeight: '700', color: '#4ADE80' },
+  verifiedText: { fontSize: 11, fontWeight: '700', color: '#16a34a' },
 
   licenseNumber: {
     fontSize: 26,
     fontWeight: '800',
-    color: '#F9FAFB',
+    color: '#ffffff',
     letterSpacing: 2,
     marginVertical: 14,
   },
@@ -1273,12 +1273,12 @@ const styles = StyleSheet.create({
   },
   licenseFieldLabel: {
     fontSize: 10,
-    color: '#6B7280',
+    color: '#78716c',
     fontWeight: '700',
     letterSpacing: 0.5,
     marginBottom: 4,
   },
-  licenseFieldValue: { fontSize: 14, fontWeight: '700', color: '#F9FAFB' },
+  licenseFieldValue: { fontSize: 14, fontWeight: '700', color: '#ffffff' },
 
   // QR Code visual
   qrPlaceholder: {
@@ -1290,27 +1290,27 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 1,
-    backgroundColor: '#9CA3AF',
+    backgroundColor: '#a8a29e',
   },
 
   // DL Expandable Details
   expandedLicContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     padding: 16,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderTopWidth: 0,
-    borderColor: '#e5e7eb',
+    borderColor: '#e7e5e4',
   },
 
   // Document list
   docList: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 16,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   docItemWrapper: {
     width: '100%',
@@ -1337,11 +1337,11 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: '#ccfbf1',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#FDE68A',
+    borderWidth: 1.5,
+    borderColor: '#99d6d0',
   },
   docIconWrapper: {
     width: 44,
@@ -1351,17 +1351,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   docTextContainer: { flex: 1, gap: 2 },
-  docTitle: { fontSize: 15, fontWeight: '700', color: '#1F2937' },
-  docSubtitle: { fontSize: 13, color: '#6B7280' },
+  docTitle: { fontSize: 15, fontWeight: '700', color: '#1c1917' },
+  docSubtitle: { fontSize: 13, color: '#78716c' },
   docStatus: { fontSize: 12, fontWeight: '600', marginTop: 2 },
-  docDivider: { height: 1, backgroundColor: '#F9FAFB' },
+  docDivider: { height: 1.5, backgroundColor: '#faf7f2' },
 
   // Expanded Doc details panel
   expandedContentWrapper: {
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#faf7f2',
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     padding: 14,
     marginBottom: 16,
   },
@@ -1379,14 +1379,14 @@ const styles = StyleSheet.create({
   fieldLabel: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#9CA3AF',
+    color: '#a8a29e',
     letterSpacing: 0.5,
     marginBottom: 4,
   },
   fieldValue: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#374151',
+    color: '#1c1917',
     lineHeight: 16,
   },
   actionButtonRow: {
@@ -1398,17 +1398,17 @@ const styles = StyleSheet.create({
   actionBtnOutline: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#D97706',
+    borderWidth: 1.5,
+    borderColor: '#0d9488',
     borderRadius: 16,
     paddingVertical: 6,
     paddingHorizontal: 12,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   actionBtnText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#D97706',
+    color: '#0d9488',
   },
   actionBtnSolid: {
     flexDirection: 'row',
@@ -1416,25 +1416,25 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 6,
     paddingHorizontal: 12,
-    backgroundColor: '#D97706',
+    backgroundColor: '#0d9488',
   },
   actionBtnTextWhite: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#fff',
+    color: '#ffffff',
   },
 
   // OCR Loader Overlay for license
   ocrLoaderOverlay: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(26,26,26,0.85)',
+    backgroundColor: 'rgba(28,25,23,0.85)',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
   },
   ocrLoaderText: {
-    color: '#fff',
+    color: '#ffffff',
     fontSize: 13,
     fontWeight: '700',
     marginTop: 10,
@@ -1442,10 +1442,10 @@ const styles = StyleSheet.create({
 
   // OCR Loader spinner for items
   ocrSpinnerCard: {
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#faf7f2',
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#FDE68A',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -1454,22 +1454,22 @@ const styles = StyleSheet.create({
   },
   ocrSpinnerText: {
     fontSize: 13,
-    color: '#D97706',
+    color: '#0d9488',
     fontWeight: '700',
   },
 
   // Editable Textboxes Inside Expanded Views
   editableFieldsCard: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 12,
     padding: 12,
   },
   editCardTitle: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#374151',
+    color: '#1c1917',
     letterSpacing: 0.5,
     marginBottom: 12,
   },
@@ -1479,18 +1479,19 @@ const styles = StyleSheet.create({
   editInputLabel: {
     fontSize: 8,
     fontWeight: '700',
-    color: '#9CA3AF',
+    color: '#a8a29e',
     marginBottom: 4,
     letterSpacing: 0.5,
   },
   editTextInput: {
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 6,
     paddingHorizontal: 8,
     height: 32,
     fontSize: 12,
-    color: '#1F2937',
+    color: '#1c1917',
     fontWeight: '600',
     ...Platform.select({
       web: { outlineStyle: 'none' } as any,
@@ -1499,9 +1500,9 @@ const styles = StyleSheet.create({
 
   // FasTag Special Recharge Form
   rechargeWalletCard: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 12,
     padding: 12,
     marginTop: 8,
@@ -1509,7 +1510,7 @@ const styles = StyleSheet.create({
   rechargeCardTitle: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#4B5563',
+    color: '#78716c',
     marginBottom: 6,
   },
   rechargeInputRow: {
@@ -1518,17 +1519,18 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   rechargeInput: {
+    backgroundColor: '#ffffff',
     flex: 1,
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 8,
     paddingHorizontal: 10,
     height: 36,
     fontSize: 13,
-    color: '#1F2937',
+    color: '#1c1917',
   },
   rechargeSubmitBtn: {
-    backgroundColor: '#0369A1',
+    backgroundColor: '#0d9488',
     borderRadius: 8,
     height: 36,
     paddingHorizontal: 12,
@@ -1536,23 +1538,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rechargeSubmitBtnText: {
-    color: '#fff',
+    color: '#ffffff',
     fontSize: 12,
     fontWeight: '700',
   },
 
   // FasTag QR Code Feature Card
   qrFeatureCard: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 12,
     padding: 12,
   },
   qrFeatureTitle: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#374151',
+    color: '#1c1917',
     marginBottom: 8,
   },
   qrActionRow: {
@@ -1564,16 +1566,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 8,
     height: 36,
     gap: 6,
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#faf7f2',
   },
   qrActionText: {
     fontSize: 12,
-    color: '#0369A1',
+    color: '#0d9488',
     fontWeight: '700',
   },
   qrDisplayArea: {
@@ -1588,21 +1590,21 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   removeQrBtn: {
-    borderWidth: 1,
-    borderColor: '#EF4444',
+    borderWidth: 1.5,
+    borderColor: '#dc2626',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
   removeQrBtnText: {
-    color: '#EF4444',
+    color: '#dc2626',
     fontSize: 11,
     fontWeight: '600',
   },
   qrContainer: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     padding: 8,
     borderRadius: 8,
     alignSelf: 'center',
@@ -1619,7 +1621,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#9CA3AF',
+    color: '#a8a29e',
     letterSpacing: 1,
     marginBottom: 16,
   },

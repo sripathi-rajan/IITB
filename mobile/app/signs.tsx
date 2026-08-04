@@ -82,18 +82,18 @@ export default function TrafficSignsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAF8F5' },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 16, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#f3f4f6' },
+  container: { flex: 1, backgroundColor: '#faf7f2' },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 16, backgroundColor: '#faf7f2', borderBottomWidth: 1.5, borderBottomColor: '#e7e5e4' },
   backButton: { padding: 4 },
-  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1f2937' },
+  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1c1917' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   content: { padding: 20 },
-  subtitle: { fontSize: 16, color: '#6b7280', marginBottom: 20 },
+  subtitle: { fontSize: 16, color: '#78716c', marginBottom: 20 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  card: { width: '48%', backgroundColor: '#fff', borderRadius: 12, padding: 16, marginBottom: 16, alignItems: 'center', elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2 },
+  card: { width: '48%', backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 16, alignItems: 'center', borderWidth: 1.5, borderColor: '#e7e5e4', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 2 },
   cardSpacer: { width: '48%' },
-  errorText: { marginTop: 12, fontSize: 14, color: '#6b7280', textAlign: 'center', paddingHorizontal: 32 },
-  imagePlaceholder: { width: 80, height: 80, backgroundColor: '#f3f4f6', borderRadius: 40, justifyContent: 'center', alignItems: 'center', marginBottom: 12, overflow: 'hidden' },
+  errorText: { marginTop: 12, fontSize: 14, color: '#78716c', textAlign: 'center', paddingHorizontal: 32 },
+  imagePlaceholder: { width: 80, height: 80, backgroundColor: '#faf7f2', borderRadius: 40, justifyContent: 'center', alignItems: 'center', marginBottom: 12, overflow: 'hidden' },
   signImage: { width: 60, height: 60 },
-  signName: { fontSize: 14, fontWeight: '600', color: '#374151', textAlign: 'center' }
+  signName: { fontSize: 14, fontWeight: '600', color: '#1c1917', textAlign: 'center' }
 });

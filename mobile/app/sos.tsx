@@ -348,7 +348,44 @@ export default function SOSScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#111111' },
+  safeArea: { flex: 1, backgroundColor: '#faf7f2' },
+  scrollContainer: { paddingHorizontal: 20, paddingBottom: 40, paddingTop: 20 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 20 },
+  closeButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#f0ebe3', alignItems: 'center', justifyContent: 'center' },
+  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1c1917' },
+  liveChip: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fee2e2', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 12, gap: 5, borderWidth: 1.5, borderColor: '#fca5a5' },
+  liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#dc2626' },
+  liveText: { fontSize: 11, fontWeight: '700', color: '#dc2626' },
+  sosSection: { alignItems: 'center', justifyContent: 'center', marginVertical: 24, height: 180 },
+  sosRipple: { position: 'absolute', width: 170, height: 170, borderRadius: 85, backgroundColor: 'rgba(220,38,38,0.12)', alignItems: 'center', justifyContent: 'center' },
+  sosRippleInner: { width: 148, height: 148, borderRadius: 74, backgroundColor: 'rgba(220,38,38,0.18)' },
+  progressRing: { position: 'absolute', width: 140, height: 140, borderRadius: 70, borderWidth: 4, borderColor: 'transparent' },
+  sosButton: {
+    width: 130, height: 130, borderRadius: 65, backgroundColor: '#dc2626',
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#dc2626', shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.5, shadowRadius: 20, elevation: 12,
+  },
+  sosLabel: { fontSize: 30, fontWeight: '900', color: '#fff', letterSpacing: 2 },
+  sosHint: { fontSize: 10, fontWeight: '700', color: 'rgba(255,255,255,0.8)', letterSpacing: 1.5, marginTop: 2 },
+  sosDesc: { textAlign: 'center', fontSize: 13, color: '#78716c', lineHeight: 20, marginBottom: 28 },
+  contactConfigCard: { backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 24, borderWidth: 1.5, borderColor: '#e7e5e4' },
+  contactConfigTitle: { fontSize: 14, fontWeight: '700', color: '#1c1917', marginBottom: 4 },
+  contactConfigSub: { fontSize: 12, color: '#78716c', marginBottom: 12, lineHeight: 16 },
+  inputRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#faf7f2', borderRadius: 12, borderWidth: 1.5, borderColor: '#e7e5e4', paddingHorizontal: 12, height: 44 },
+  inputIcon: { marginRight: 8 },
+  contactInput: {
+    flex: 1, color: '#1c1917', fontSize: 14, height: '100%', padding: 0,
+    ...Platform.select({ web: { outlineStyle: 'none' } as any }),
+  },
+  contactSaveBtn: { backgroundColor: '#0d9488', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6, justifyContent: 'center', alignItems: 'center' },
+  contactSaveText: { color: '#fff', fontSize: 12, fontWeight: '700', textAlign: 'center' },
+  emergencyGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 20 },
+  emergencyCard: { width: '48%', backgroundColor: '#ffffff', borderRadius: 16, padding: 16, gap: 8, borderWidth: 1.5, borderColor: '#e7e5e4' },
+  emergencyIcon: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  emergencyTitle: { fontSize: 14, fontWeight: '700', color: '#1c1917' },
+  emergencyNumber: { fontSize: 13, color: '#78716c' },
+});
+
   scrollContainer: {
     paddingHorizontal: 20,
     paddingBottom: 40,

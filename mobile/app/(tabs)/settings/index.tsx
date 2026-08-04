@@ -739,8 +739,8 @@ function SettingsItem({
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1, backgroundColor: '#FAF8F5' },
+  safeArea: { flex: 1, backgroundColor: '#faf7f2' },
+  container: { flex: 1, backgroundColor: '#faf7f2' },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -748,52 +748,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#faf7f2',
   },
   backButton: { padding: 4 },
-  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1f2937' },
+  headerTitle: { fontSize: 18, fontWeight: '700', color: '#1c1917' },
   scrollContent: { paddingBottom: 40, paddingHorizontal: 20 },
 
   // Profile Card
   profileCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 20,
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     gap: 16,
   },
   avatarContainer: {
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: '#ccfbf1',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: { fontSize: 24, fontWeight: '700', color: '#B45309' },
+  avatarText: { fontSize: 24, fontWeight: '700', color: '#0d9488' },
   profileInfo: { flex: 1, gap: 4 },
-  profileName: { fontSize: 18, fontWeight: '700', color: '#1F2937' },
-  profileMeta: { fontSize: 13, color: '#6B7280' },
+  profileName: { fontSize: 18, fontWeight: '700', color: '#1c1917' },
+  profileMeta: { fontSize: 13, color: '#78716c' },
   safeDriverBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
     marginTop: 2,
   },
-  safeDriverText: { fontSize: 13, fontWeight: '600', color: '#16A34A' },
+  safeDriverText: { fontSize: 13, fontWeight: '600', color: '#16a34a' },
 
   // Stats
   statsRow: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 16,
     marginTop: 16,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     overflow: 'hidden',
   },
   statCard: {
@@ -802,18 +802,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
-  statDivider: { width: 1, backgroundColor: '#F3F4F6', marginVertical: 12 },
-  statValue: { fontSize: 22, fontWeight: '800', color: '#1F2937' },
-  statLabel: { fontSize: 11, color: '#9CA3AF', textAlign: 'center' },
+  statDivider: { width: 1.5, backgroundColor: '#e7e5e4', marginVertical: 12 },
+  statValue: { fontSize: 22, fontWeight: '800', color: '#1c1917' },
+  statLabel: { fontSize: 11, color: '#a8a29e', textAlign: 'center' },
 
   // Settings List
   settingsList: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 16,
     marginTop: 24,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   settingsItem: {
     flexDirection: 'row',
@@ -828,19 +828,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  settingsLabel: { flex: 1, fontSize: 15, fontWeight: '500', color: '#1F2937' },
+  settingsLabel: { flex: 1, fontSize: 15, fontWeight: '500', color: '#1c1917' },
   settingsRight: { flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 },
-  settingsValue: { fontSize: 13, color: '#9CA3AF', flexShrink: 1 },
-  settingsDivider: { height: 1, backgroundColor: '#F9FAFB', marginLeft: 48 },
+  settingsValue: { fontSize: 13, color: '#a8a29e', flexShrink: 1 },
+  settingsDivider: { height: 1.5, backgroundColor: '#faf7f2', marginLeft: 48 },
 
   // Modal
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(28,25,23,0.6)',
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#faf7f2',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
@@ -856,27 +856,27 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#1f2937',
+    color: '#1c1917',
   },
   langOption: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
+    borderBottomWidth: 1.5,
+    borderBottomColor: '#e7e5e4',
   },
   langOptionSelected: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: '#ccfbf1',
     marginHorizontal: -24,
     paddingHorizontal: 24,
   },
   langLabel: {
     fontSize: 16,
-    color: '#4b5563',
+    color: '#78716c',
   },
   langLabelSelected: {
-    color: '#D97706',
+    color: '#0d9488',
     fontWeight: '700',
   },
 
@@ -884,7 +884,7 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#6b7280',
+    color: '#78716c',
     marginBottom: 10,
     letterSpacing: 0.5,
   },
@@ -895,24 +895,24 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   selectionPill: {
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#ffffff',
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   selectionPillSelected: {
-    backgroundColor: '#FFF7ED',
-    borderColor: '#D97706',
+    backgroundColor: '#ccfbf1',
+    borderColor: '#0d9488',
   },
   selectionPillText: {
     fontSize: 13,
-    color: '#4b5563',
+    color: '#78716c',
     fontWeight: '500',
   },
   selectionPillTextSelected: {
-    color: '#D97706',
+    color: '#0d9488',
     fontWeight: '700',
   },
 
@@ -923,22 +923,23 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#6b7280',
+    color: '#78716c',
     marginBottom: 6,
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 12,
     padding: 12,
     fontSize: 15,
-    color: '#1f2937',
+    color: '#1c1917',
     ...Platform.select({
       web: { outlineStyle: 'none' } as any,
     }),
   },
   saveButton: {
-    backgroundColor: '#D97706',
+    backgroundColor: '#0d9488',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -952,14 +953,14 @@ const styles = StyleSheet.create({
 
   // Vehicles modal add
   vehicleAddHeaderBtn: {
-    backgroundColor: '#FFF7ED',
+    backgroundColor: '#ccfbf1',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
   vehicleAddHeaderBtnText: {
     fontSize: 13,
-    color: '#D97706',
+    color: '#0d9488',
     fontWeight: '700',
   },
   emptyVehicles: {
@@ -969,10 +970,10 @@ const styles = StyleSheet.create({
   },
   emptyVehiclesText: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#78716c',
   },
   addButtonSolid: {
-    backgroundColor: '#D97706',
+    backgroundColor: '#0d9488',
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -983,12 +984,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   vehicleItemCard: {
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#ffffff',
     padding: 16,
     borderRadius: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   vehicleItemHeader: {
     flexDirection: 'row',
@@ -998,25 +999,25 @@ const styles = StyleSheet.create({
   vehicleItemName: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#1F2937',
+    color: '#1c1917',
   },
   vehicleItemModel: {
     fontSize: 12,
-    color: '#6B7280',
+    color: '#78716c',
     marginTop: 2,
   },
   plateBadge: {
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#faf7f2',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   plateText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#374151',
+    color: '#1c1917',
   },
   rcAttachedRow: {
     flexDirection: 'row',
@@ -1026,20 +1027,20 @@ const styles = StyleSheet.create({
   },
   rcAttachedText: {
     fontSize: 11,
-    color: '#16A34A',
+    color: '#16a34a',
     fontWeight: '600',
   },
 
   // Photo Picker
   photoPickerBox: {
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderStyle: 'dashed',
     borderRadius: 12,
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#ffffff',
     overflow: 'hidden',
   },
   photoPreview: {
@@ -1050,14 +1051,14 @@ const styles = StyleSheet.create({
   photoPickerText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#D97706',
+    color: '#0d9488',
     marginTop: 6,
   },
 
   // Popover Styles
   popoverOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(28,25,23,0.6)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1066,16 +1067,16 @@ const styles = StyleSheet.create({
     maxWidth: 340,
   },
   popoverContent: {
-    backgroundColor: '#1c1c1c',
+    backgroundColor: '#faf7f2',
     borderRadius: 16,
     padding: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 10,
-    borderWidth: 1,
-    borderColor: '#333',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
   },
   popoverHeader: {
     flexDirection: 'row',
@@ -1083,13 +1084,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   popoverTitle: {
-    color: '#FFF',
+    color: '#1c1917',
     fontSize: 16,
     fontWeight: '700',
     marginLeft: 8,
   },
   popoverSub: {
-    color: '#9CA3AF',
+    color: '#78716c',
     fontSize: 12,
     marginBottom: 20,
     lineHeight: 18,
@@ -1097,7 +1098,9 @@ const styles = StyleSheet.create({
   popoverInputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2D2D2D',
+    backgroundColor: '#ffffff',
+    borderWidth: 1.5,
+    borderColor: '#e7e5e4',
     borderRadius: 10,
     paddingHorizontal: 12,
     height: 44,
@@ -1107,12 +1110,12 @@ const styles = StyleSheet.create({
   },
   popoverInput: {
     flex: 1,
-    color: '#F3F4F6',
+    color: '#1c1917',
     fontSize: 14,
     ...(Platform.OS === 'web' ? { outlineStyle: 'none' } : {}) as any,
   },
   popoverSaveBtn: {
-    backgroundColor: '#B91C1C',
+    backgroundColor: '#dc2626',
     borderRadius: 10,
     height: 44,
     justifyContent: 'center',

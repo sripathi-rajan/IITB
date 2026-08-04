@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, ActivityIndicator, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MapView, { Polygon, Region, Marker } from 'react-native-maps';
@@ -350,86 +350,25 @@ export default function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8fafc',
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#475569',
-  },
-  filterContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    zIndex: 100,
-  },
-  filterScroll: {
-    paddingHorizontal: 20,
-    gap: 10,
-  },
+  container: { flex: 1, position: 'relative' },
+  map: { width: '100%', height: '100%' },
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#faf7f2' },
+  loadingText: { marginTop: 10, color: '#78716c', fontWeight: '500' },
+  filterContainer: { position: 'absolute', left: 0, right: 0, zIndex: 100 },
+  filterScroll: { paddingHorizontal: 20, gap: 10 },
   filterButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 3,
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#faf7f2',
+    borderWidth: 1.5, borderColor: '#e7e5e4', borderRadius: 20,
+    paddingHorizontal: 14, paddingVertical: 8,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 3,
   },
-  filterText: {
-    fontSize: 13,
-    color: '#334155',
-    fontWeight: '600',
-  },
+  filterText: { fontSize: 13, color: '#1c1917', fontWeight: '600' },
   panel: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    padding: 20,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 6,
+    position: 'absolute', left: 20, right: 20, backgroundColor: '#faf7f2',
+    borderWidth: 1.5, borderColor: '#e7e5e4', padding: 20, borderRadius: 20,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.08, shadowRadius: 12, elevation: 6,
   },
-  zoneTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#0f172a',
-    letterSpacing: 0.5,
-  },
-  speedLimit: {
-    fontSize: 16,
-    color: '#d97706',
-    fontWeight: '600',
-    marginTop: 5,
-  },
-  rules: {
-    fontSize: 13,
-    color: '#475569',
-    marginTop: 5,
-    lineHeight: 18,
-    fontWeight: '500',
-  },
+  zoneTitle: { fontSize: 16, fontWeight: '800', color: '#1c1917', letterSpacing: 0.5 },
+  speedLimit: { fontSize: 16, color: '#d97706', fontWeight: '700', marginTop: 5 },
+  rules: { fontSize: 13, color: '#78716c', marginTop: 5, lineHeight: 18, fontWeight: '500' },
 });
