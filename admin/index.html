@@ -3,677 +3,663 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DriveLegal — Command & Analytics Hub</title>
+  <title>TrafficOS Admin — Civic Intelligence Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #f8fafc;
-      --panel: #ffffff;
-      --panel-hover: #f1f5f9;
-      --border: #e2e8f0;
-      --border-hover: #cbd5e1;
-      
-      --accent-primary: #4f46e5;
-      --accent-secondary: #9333ea;
-      --accent-cyan: #0284c7;
-      --accent-emerald: #059669;
-      --accent-rose: #e11d48;
-      --accent-amber: #d97706;
-      
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --text-dim: #64748b;
-
-      --sidebar-w: 260px;
-      --right-panel-w: 340px;
-      --header-h: 70px;
-
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-      --shadow-md: 0 4px 16px -2px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
-      --shadow-lg: 0 12px 32px -4px rgba(0,0,0,0.08);
+      --cream:    #faf7f2;
+      --cream-dk: #f0ebe3;
+      --stone:    #e7e5e4;
+      --teal:     #0d9488;
+      --teal-lt:  #ccfbf1;
+      --orange:   #ea580c;
+      --orange-lt:#ffedd5;
+      --amber:    #d97706;
+      --amber-lt: #fef3c7;
+      --green:    #16a34a;
+      --green-lt: #dcfce7;
+      --red:      #dc2626;
+      --red-lt:   #fee2e2;
+      --ink:      #1c1917;
+      --ink-md:   #44403c;
+      --ink-lt:   #78716c;
+      --ink-xs:   #a8a29e;
+      --white:    #ffffff;
+      --radius:   14px;
+      --shadow:   0 2px 12px rgba(0,0,0,0.06);
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
     body {
-      background: var(--bg);
-      color: var(--text-main);
-      overflow-x: hidden;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Ambient Background Glows */
-    .glow-bg {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background: 
-        radial-gradient(circle at 10% 10%, rgba(79, 70, 229, 0.04) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(147, 51, 234, 0.04) 0%, transparent 40%);
-    }
-
-    /* ════════════════════════════════════════════════════════════════════
-       LOGIN OVERLAY (CLEAN LIGHT THEME)
-    ════════════════════════════════════════════════════════════════════ */
-    #login-screen {
-      position: fixed; inset: 0; z-index: 9999;
+    /* ── AUTH SCREEN ───────────────────────────────────────── */
+    #auth-screen {
+      position: fixed; inset: 0; z-index: 9000;
+      background: var(--cream);
       display: flex; align-items: center; justify-content: center;
-      background: #f1f5f9;
     }
-    .login-box {
-      width: 100%; max-width: 440px; padding: 40px;
-      background: #ffffff; border: 1px solid var(--border);
-      border-radius: 24px; box-shadow: var(--shadow-lg);
-      text-align: center;
+    .auth-wrap {
+      width: 420px; text-align: center;
     }
-    .brand-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 14px; border-radius: 20px;
-      background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.2);
-      color: var(--accent-primary); font-size: 12px; font-weight: 700; margin-bottom: 24px;
+    .auth-eyebrow {
+      display: inline-block; background: var(--teal-lt); color: var(--teal);
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
     }
-    .login-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
-    .login-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 32px; }
-    
-    .input-field {
-      width: 100%; padding: 14px 18px; background: #f8fafc;
-      border: 1px solid var(--border); border-radius: 14px;
-      color: var(--text-main); font-size: 14px; font-weight: 500; margin-bottom: 20px; outline: none;
+    .auth-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 38px; line-height: 1.15; color: var(--ink); margin-bottom: 10px;
+    }
+    .auth-sub { color: var(--ink-lt); font-size: 15px; margin-bottom: 36px; }
+    .auth-field {
+      width: 100%; padding: 15px 18px; border: 1.5px solid var(--stone);
+      border-radius: var(--radius); background: var(--white);
+      font-family: inherit; font-size: 15px; color: var(--ink);
+      margin-bottom: 16px; outline: none; transition: border-color 0.2s;
+    }
+    .auth-field:focus { border-color: var(--teal); }
+    .auth-btn {
+      width: 100%; padding: 15px; background: var(--teal); color: #fff;
+      border: none; border-radius: var(--radius); font-family: inherit;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .auth-btn:hover { background: #0b7b6e; transform: translateY(-1px); }
+
+    /* ── APP SHELL ─────────────────────────────────────────── */
+    #app { display: none; min-height: 100vh; }
+
+    /* TOP NARROW BANNER */
+    .top-banner {
+      height: 44px; background: var(--teal); color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; font-size: 12px; font-weight: 500;
+    }
+    .banner-left { display: flex; align-items: center; gap: 20px; }
+    .banner-live { display: flex; align-items: center; gap: 6px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #5eead4; }
+    .banner-right { display: flex; align-items: center; gap: 16px; }
+    .banner-btn {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px; padding: 4px 12px; color: #fff; font-size: 12px;
+      font-weight: 600; cursor: pointer; transition: background 0.2s;
+    }
+    .banner-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* MAIN NAV BAR */
+    .main-nav {
+      height: 64px; background: var(--white); border-bottom: 1.5px solid var(--stone);
+      display: flex; align-items: center; padding: 0 32px; gap: 0;
+      position: sticky; top: 0; z-index: 500;
+    }
+    .nav-wordmark {
+      font-family: 'DM Serif Display', serif; font-size: 22px;
+      color: var(--ink); margin-right: 40px; letter-spacing: -0.3px;
+      flex-shrink: 0;
+    }
+    .nav-wordmark span { color: var(--teal); }
+
+    /* HORIZONTAL TABS INSIDE NAV */
+    .nav-tabs { display: flex; align-items: center; gap: 2px; flex: 1; }
+    .nav-tab {
+      padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
+      color: var(--ink-lt); cursor: pointer; transition: all 0.2s;
+      border: none; background: none; font-family: inherit;
+    }
+    .nav-tab:hover { background: var(--cream); color: var(--ink); }
+    .nav-tab.active { background: var(--teal-lt); color: var(--teal); }
+
+    .nav-end { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+    .ai-toggle-btn {
+      display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+      background: var(--orange-lt); border: 1.5px solid var(--orange); border-radius: 10px;
+      color: var(--orange); font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .ai-toggle-btn:hover { background: var(--orange); color: #fff; }
+    .user-chip {
+      display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+      background: var(--cream-dk); border-radius: 20px; cursor: pointer;
+    }
+    .user-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--teal); color: #fff;
+      font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center;
+    }
+    .user-name { font-size: 13px; font-weight: 600; }
+
+    /* PAGE CONTENT AREA */
+    .page { max-width: 1360px; margin: 0 auto; padding: 36px 32px; }
+
+    /* ── DASHBOARD VIEW ────────────────────────────────────── */
+    .page-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--ink-xs); margin-bottom: 6px;
+    }
+    .page-headline {
+      font-family: 'DM Serif Display', serif; font-size: 34px; color: var(--ink);
+      margin-bottom: 32px; letter-spacing: -0.5px;
+    }
+
+    /* HORIZONTAL TIMELINE METRICS */
+    .metrics-row { display: flex; gap: 16px; margin-bottom: 36px; }
+    .metric-card {
+      flex: 1; background: var(--white); border: 1.5px solid var(--stone);
+      border-radius: 20px; padding: 24px; position: relative; overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .metric-accent-bar {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      border-radius: 20px 0 0 20px;
+    }
+    .metric-label { font-size: 12px; font-weight: 600; color: var(--ink-xs); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+    .metric-val { font-family: 'DM Serif Display', serif; font-size: 40px; color: var(--ink); line-height: 1; margin-bottom: 8px; }
+    .metric-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+    }
+
+    /* CONTENT SPLIT: 60% reports + 40% side panel */
+    .content-area { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+
+    /* REPORTS TABLE */
+    .section-card {
+      background: var(--white); border: 1.5px solid var(--stone);
+      border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
+    }
+    .section-head {
+      padding: 20px 24px 16px; border-bottom: 1px solid var(--cream-dk);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: 20px; }
+    .section-body { padding: 0; }
+
+    .filter-bar {
+      display: flex; gap: 8px; padding: 16px 24px;
+      border-bottom: 1px solid var(--cream-dk); background: var(--cream);
+    }
+    .filter-pill {
+      padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+      border: 1.5px solid var(--stone); color: var(--ink-lt);
+      background: var(--white); cursor: pointer; transition: all 0.15s; font-family: inherit;
+    }
+    .filter-pill.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+    .report-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; border-bottom: 1px solid var(--cream-dk);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .report-row:hover { background: var(--cream); }
+    .report-row:last-child { border-bottom: none; }
+    .rr-left { display: flex; align-items: center; gap: 14px; }
+    .rr-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--cream-dk); display: flex; align-items: center; justify-content: center; }
+    .rr-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+    .rr-meta { font-size: 12px; color: var(--ink-lt); font-weight: 500; }
+    .status-tag {
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 8px; letter-spacing: 0.5px;
+    }
+    .st-pending { background: var(--amber-lt); color: var(--amber); }
+    .st-verified { background: var(--green-lt); color: var(--green); }
+    .st-action  { background: var(--teal-lt); color: var(--teal); }
+    .st-rejected{ background: var(--red-lt); color: var(--red); }
+
+    /* SIDE PANEL */
+    .side-panel { display: flex; flex-direction: column; gap: 20px; }
+    .side-card {
+      background: var(--white); border: 1.5px solid var(--stone);
+      border-radius: 20px; padding: 22px; box-shadow: var(--shadow);
+    }
+    .side-card-title {
+      font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 16px;
+    }
+
+    /* BROADCAST ACTIONS */
+    .action-btn {
+      width: 100%; padding: 13px 18px; border-radius: var(--radius); border: none;
+      font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
       transition: all 0.2s;
     }
-    .input-field:focus { border-color: var(--accent-primary); background: #ffffff; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+    .ab-teal { background: var(--teal-lt); color: var(--teal); }
+    .ab-teal:hover { background: var(--teal); color: #fff; }
+    .ab-orange { background: var(--orange-lt); color: var(--orange); }
+    .ab-orange:hover { background: var(--orange); color: #fff; }
 
-    .btn-login {
-      width: 100%; padding: 14px; border: none; border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: #fff; font-weight: 700; font-size: 15px; cursor: pointer;
-      box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
+    /* ── AI CHAT DRAWER (RIGHT EDGE SLIDE-IN) ─────────────── */
+    .ai-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 800;
+      width: 420px; background: var(--white);
+      border-left: 1.5px solid var(--stone);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -4px rgba(79, 70, 229, 0.5); }
+    .ai-drawer.open { transform: translateX(0); }
+    .ai-drawer-head {
+      padding: 20px 24px; background: var(--teal);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .ai-drawer-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; }
+    .ai-drawer-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+    .ai-close-btn {
+      width: 36px; height: 36px; border-radius: 10px; border: none;
+      background: rgba(255,255,255,0.2); color: #fff; cursor: pointer; font-size: 16px;
+    }
+    .ai-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .ai-msg { max-width: 85%; }
+    .ai-msg-bot { align-self: flex-start; }
+    .ai-msg-user { align-self: flex-end; }
+    .msg-bubble {
+      padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; font-weight: 400;
+    }
+    .msg-bubble-bot { background: var(--cream); color: var(--ink); border-top-left-radius: 4px; }
+    .msg-bubble-user { background: var(--teal); color: #fff; border-top-right-radius: 4px; }
+    .msg-time { font-size: 10px; color: var(--ink-xs); margin-top: 4px; }
+    .ai-input-row {
+      padding: 16px; border-top: 1.5px solid var(--stone);
+      display: flex; gap: 10px; flex-shrink: 0;
+    }
+    .ai-input {
+      flex: 1; padding: 12px 16px; border: 1.5px solid var(--stone);
+      border-radius: 12px; font-family: inherit; font-size: 14px; color: var(--ink);
+      outline: none; background: var(--cream);
+    }
+    .ai-input:focus { border-color: var(--teal); background: var(--white); }
+    .ai-send {
+      width: 44px; height: 44px; border-radius: 12px; border: none;
+      background: var(--teal); color: #fff; cursor: pointer; font-size: 16px;
+    }
+    .ai-send:hover { background: #0b7b6e; }
 
-    /* ════════════════════════════════════════════════════════════════════
-       APP LAYOUT (LIGHT DESKTOP COMMAND HUB)
-    ════════════════════════════════════════════════════════════════════ */
-    #app-shell { display: none; min-height: 100vh; position: relative; z-index: 1; }
+    /* MODAL */
+    .overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(28,25,23,0.5); display: none; align-items: center; justify-content: center; }
+    .overlay.open { display: flex; }
+    .modal {
+      width: 560px; background: var(--white); border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.15); overflow: hidden; max-height: 90vh;
+    }
+    .modal-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--cream-dk); display: flex; align-items: center; justify-content: space-between; }
+    .modal-title { font-family: 'DM Serif Display', serif; font-size: 22px; }
+    .modal-close { background: none; border: none; font-size: 20px; color: var(--ink-lt); cursor: pointer; }
+    .modal-body { padding: 24px 28px; overflow-y: auto; max-height: 60vh; font-size: 14px; line-height: 1.7; color: var(--ink-md); }
+    .modal-select { width: 100%; padding: 12px 16px; border: 1.5px solid var(--stone); border-radius: var(--radius); font-family: inherit; font-size: 14px; color: var(--ink); margin: 16px 0 20px; outline: none; background: var(--cream); }
+    .modal-footer { padding: 16px 28px; border-top: 1px solid var(--cream-dk); display: flex; justify-content: flex-end; gap: 10px; }
+    .btn-ghost { padding: 10px 20px; border: 1.5px solid var(--stone); border-radius: 10px; background: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--ink-lt); cursor: pointer; }
+    .btn-solid { padding: 10px 20px; border: none; border-radius: 10px; background: var(--teal); font-family: inherit; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; }
 
-    /* TOP NAVBAR */
-    .top-navbar {
-      height: var(--header-h); position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; padding: 0 28px;
-      box-shadow: var(--shadow-sm);
-    }
-    .nav-brand { display: flex; align-items: center; gap: 12px; }
-    .brand-icon {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-    }
-    .brand-name { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
-
-    .nav-search { position: relative; width: 380px; }
-    .nav-search input {
-      width: 100%; padding: 10px 16px 10px 42px; background: #f1f5f9;
-      border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); font-size: 13px; outline: none;
-      font-weight: 500;
-    }
-    .nav-search input::placeholder { color: var(--text-dim); }
-    .nav-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
-
-    .nav-actions { display: flex; align-items: center; gap: 16px; }
-    .status-indicator {
-      display: flex; align-items: center; gap: 8px; padding: 6px 14px;
-      background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.2);
-      border-radius: 20px; color: var(--accent-emerald); font-size: 12px; font-weight: 700;
-    }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-emerald); }
-
-    .profile-pill {
-      display: flex; align-items: center; gap: 10px; padding: 6px 14px;
-      background: #f1f5f9; border: 1px solid var(--border); border-radius: 30px;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .profile-pill:hover { background: #e2e8f0; }
-    .profile-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: #fff; }
-
-    /* MAIN HUB LAYOUT */
-    .hub-container {
-      display: flex; margin-top: var(--header-h); min-height: calc(100vh - var(--header-h));
-    }
-
-    /* LEFT SIDEBAR */
-    .sidebar-nav {
-      width: var(--sidebar-w); background: var(--panel); border-right: 1px solid var(--border);
-      padding: 24px 16px; display: flex; flex-direction: column; gap: 6px;
-    }
-    .nav-group-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; margin: 16px 12px 8px; }
-    .side-nav-item {
-      display: flex; align-items: center; gap: 14px; padding: 12px 16px;
-      border-radius: 14px; color: var(--text-muted); font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .side-nav-item:hover { background: var(--panel-hover); color: var(--text-main); }
-    .side-nav-item.active { background: rgba(79, 70, 229, 0.08); color: var(--accent-primary); border: 1px solid rgba(79, 70, 229, 0.2); }
-    .side-nav-item i { font-size: 16px; width: 20px; }
-
-    /* CENTER MAIN STAGE */
-    .main-stage { flex: 1; padding: 28px; overflow-y: auto; }
-
-    /* RIGHT WIDGET DOCK */
-    .right-dock {
-      width: var(--right-panel-w); background: var(--panel); border-left: 1px solid var(--border);
-      padding: 24px; display: flex; flex-direction: column; gap: 24px;
-    }
-
-    /* ════════════════════════════════════════════════════════════════════
-       DASHBOARD CARDS & COMPONENTS (HIGH CONTRAST LIGHT MODE)
-    ════════════════════════════════════════════════════════════════════ */
-    .bento-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 28px;
-    }
-    .bento-card {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 20px; padding: 22px; position: relative; overflow: hidden;
-      box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .bento-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-    
-    .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .card-icon {
-      width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
-    .ic-indigo { background: rgba(79, 70, 229, 0.1); color: var(--accent-primary); }
-    .ic-purple { background: rgba(147, 51, 234, 0.1); color: var(--accent-secondary); }
-    .ic-emerald { background: rgba(5, 150, 105, 0.1); color: var(--accent-emerald); }
-    .ic-rose { background: rgba(225, 29, 72, 0.1); color: var(--accent-rose); }
-
-    .card-num { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: var(--text-main); }
-    .card-label { color: var(--text-muted); font-size: 13px; margin-top: 4px; font-weight: 600; }
-
-    /* PANELS */
-    .panel-box {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 24px; padding: 24px; box-shadow: var(--shadow-sm);
-    }
-    .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .panel-title { font-size: 18px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
-
-    .filter-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-    .tab-btn {
-      padding: 8px 16px; border-radius: 10px; background: #f1f5f9;
-      border: 1px solid var(--border); color: var(--text-muted); font-size: 13px;
-      font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
-    .tab-btn.active, .tab-btn:hover { background: rgba(79, 70, 229, 0.1); color: var(--accent-primary); border-color: rgba(79, 70, 229, 0.3); }
-
-    .report-card-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px; background: #f8fafc; border: 1px solid var(--border);
-      border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s;
-    }
-    .report-card-item:hover { background: #f1f5f9; border-color: var(--border-hover); }
-
-    .rc-info { display: flex; align-items: center; gap: 14px; }
-    .rc-thumb { width: 48px; height: 48px; border-radius: 12px; background: #e2e8f0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .rc-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .rc-title { font-weight: 700; font-size: 15px; color: var(--text-main); margin-bottom: 2px; }
-    .rc-meta { color: var(--text-muted); font-size: 12px; font-weight: 500; }
-
-    .status-badge {
-      padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase;
-    }
-    .sb-pending { background: rgba(217, 119, 6, 0.12); color: var(--accent-amber); }
-    .sb-verified { background: rgba(5, 150, 105, 0.12); color: var(--accent-emerald); }
-    .sb-action { background: rgba(147, 51, 234, 0.12); color: var(--accent-secondary); }
-    .sb-rejected { background: rgba(225, 29, 72, 0.12); color: var(--accent-rose); }
-
-    /* ════════════════════════════════════════════════════════════════════
-       FLOATING AI CHATBOT DROPDOWN WIDGET (LIGHT FLOATING CARD)
-    ════════════════════════════════════════════════════════════════════ */
-    .ai-chat-fab {
-      position: fixed; bottom: 28px; right: 28px; z-index: 1000;
-      width: 60px; height: 60px; border-radius: 30px; border: none;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: #fff; font-size: 24px; cursor: pointer;
-      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s;
-    }
-    .ai-chat-fab:hover { transform: scale(1.08); }
-
-    .ai-chat-dropdown {
-      position: fixed; bottom: 100px; right: 28px; z-index: 999;
-      width: 380px; height: 540px; background: #ffffff;
-      border: 1px solid var(--border); border-radius: 24px;
-      box-shadow: var(--shadow-lg);
-      display: none; flex-direction: column; overflow: hidden;
-      animation: popup 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes popup {
-      from { opacity: 0; transform: translateY(20px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .ai-chat-dropdown.active { display: flex; }
-
-    .chat-head {
-      padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .chat-bot-info { display: flex; align-items: center; gap: 10px; }
-    .bot-avatar { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-primary); display: flex; align-items: center; justify-content: center; color: #fff; }
-    
-    .chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #ffffff; }
-    .msg-bubble { padding: 12px 16px; border-radius: 16px; font-size: 13px; max-width: 85%; line-height: 1.4; font-weight: 500; }
-    .msg-ai { background: #f1f5f9; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; }
-    .msg-user { background: var(--accent-primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-
-    .chat-foot { padding: 14px; border-top: 1px solid var(--border); display: flex; gap: 8px; background: #f8fafc; }
-    .chat-foot input {
-      flex: 1; padding: 10px 14px; background: #ffffff;
-      border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); outline: none; font-size: 13px; font-weight: 500;
-    }
-    .chat-send-btn {
-      width: 38px; height: 38px; border-radius: 10px; border: none;
-      background: var(--accent-primary); color: #fff; cursor: pointer;
-    }
-
-    /* MODAL OVERLAY */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 2000; background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-card {
-      width: 100%; max-width: 560px; background: #ffffff; border: 1px solid var(--border);
-      border-radius: 24px; padding: 28px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg);
-    }
+    /* VIEWS */
+    .view { display: none; }
+    .view.active { display: block; }
   </style>
 </head>
 <body>
 
-  <div class="glow-bg"></div>
-
-  <!-- LOGIN SCREEN -->
-  <div id="login-screen">
-    <div class="login-box">
-      <div class="brand-badge"><i class="fa fa-shield-halved"></i> Admin Control Center</div>
-      <div class="login-title">DriveLegal Hub</div>
-      <div class="login-subtitle">Enter your administrative passkey to continue</div>
-      <input type="password" id="admin-secret" class="input-field" placeholder="Admin Secret Key..." />
-      <button class="btn-login" onclick="login()"><i class="fa fa-key"></i> Authenticate & Connect</button>
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen">
+    <div class="auth-wrap">
+      <div class="auth-eyebrow">Civic Intelligence Platform</div>
+      <div class="auth-headline">TrafficOS<br>Admin Console</div>
+      <p class="auth-sub">Enter your admin passkey to access the operations centre.</p>
+      <input type="password" id="auth-key" class="auth-field" placeholder="Passkey..." />
+      <button class="auth-btn" onclick="doLogin()"><i class="fa fa-arrow-right-to-bracket"></i> &nbsp;Access Console</button>
     </div>
   </div>
 
-  <!-- APP SHELL (LIGHT THEME) -->
-  <div id="app-shell">
-    
-    <!-- TOP NAVBAR -->
-    <header class="top-navbar">
-      <div class="nav-brand">
-        <div class="brand-icon">DL</div>
-        <div class="brand-name">DriveLegal Command</div>
+  <!-- APP SHELL -->
+  <div id="app">
+
+    <!-- TOP BANNER -->
+    <div class="top-banner">
+      <div class="banner-left">
+        <div class="banner-live"><div class="live-dot"></div> All systems operational</div>
+        <span style="opacity:0.4">|</span>
+        <span>TRAFFIC REGULATION MANAGEMENT SYSTEM</span>
       </div>
-      
-      <div class="nav-search">
-        <i class="fa fa-search"></i>
-        <input type="text" placeholder="Search reports, users, bulletins..." />
+      <div class="banner-right">
+        <span id="banner-time" style="opacity:0.8"></span>
+        <button class="banner-btn" onclick="doLogout()"><i class="fa fa-right-from-bracket"></i> Sign Out</button>
+      </div>
+    </div>
+
+    <!-- MAIN NAV -->
+    <nav class="main-nav">
+      <div class="nav-wordmark">Traffic<span>OS</span></div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-view="dash"     onclick="switchView('dash', this)"><i class="fa fa-chart-column"></i> &nbsp;Dashboard</button>
+        <button class="nav-tab"        data-view="reports"  onclick="switchView('reports', this)"><i class="fa fa-triangle-exclamation"></i> &nbsp;Reports</button>
+        <button class="nav-tab"        data-view="users"    onclick="switchView('users', this)"><i class="fa fa-id-badge"></i> &nbsp;Drivers</button>
+        <button class="nav-tab"        data-view="comms"    onclick="switchView('comms', this)"><i class="fa fa-broadcast-tower"></i> &nbsp;Broadcasts</button>
+      </div>
+      <div class="nav-end">
+        <button class="ai-toggle-btn" onclick="toggleAI()"><i class="fa fa-comment-dots"></i> AI Advisor</button>
+        <div class="user-chip" onclick="doLogout()">
+          <div class="user-avatar">A</div>
+          <span class="user-name">Admin</span>
+          <i class="fa fa-chevron-down" style="font-size:10px; color:var(--ink-lt)"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <div class="page">
+
+      <!-- ── DASHBOARD ── -->
+      <div id="view-dash" class="view active">
+        <div class="page-eyebrow">Operations Centre</div>
+        <div class="page-headline">Today's Command Brief</div>
+
+        <div class="metrics-row" id="dash-metrics">
+          <div class="metric-card">
+            <div class="metric-accent-bar" style="background:var(--teal)"></div>
+            <div class="metric-label">Traffic Reports</div>
+            <div class="metric-val" id="m-reports">—</div>
+            <div class="metric-chip" style="background:var(--teal-lt);color:var(--teal)"><i class="fa fa-flag"></i> Active Feed</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-accent-bar" style="background:var(--orange)"></div>
+            <div class="metric-label">Registered Drivers</div>
+            <div class="metric-val" id="m-users">—</div>
+            <div class="metric-chip" style="background:var(--orange-lt);color:var(--orange)"><i class="fa fa-users"></i> Verified</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-accent-bar" style="background:var(--green)"></div>
+            <div class="metric-label">Published Bulletins</div>
+            <div class="metric-val" id="m-briefs">—</div>
+            <div class="metric-chip" style="background:var(--green-lt);color:var(--green)"><i class="fa fa-check-circle"></i> Live</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-accent-bar" style="background:var(--red)"></div>
+            <div class="metric-label">Emergency Alerts</div>
+            <div class="metric-val" id="m-notifs">—</div>
+            <div class="metric-chip" style="background:var(--red-lt);color:var(--red)"><i class="fa fa-bell"></i> Broadcast</div>
+          </div>
+        </div>
+
+        <div class="content-area">
+          <div class="section-card">
+            <div class="section-head">
+              <div class="section-title">Incident Report Feed</div>
+              <button class="filter-pill active" style="border-color:var(--teal);background:var(--teal);color:#fff">View All →</button>
+            </div>
+            <div class="section-body" id="dash-reports-list"></div>
+          </div>
+
+          <div class="side-panel">
+            <div class="side-card">
+              <div class="side-card-title">Quick Broadcasts</div>
+              <button class="action-btn ab-teal" onclick="openCreateModal('notif')"><i class="fa fa-bell"></i> Emergency Alert</button>
+              <button class="action-btn ab-orange" onclick="openCreateModal('brief')"><i class="fa fa-newspaper"></i> Legal Bulletin</button>
+            </div>
+            <div class="side-card">
+              <div class="side-card-title">System Status</div>
+              <div style="font-size:13px;color:var(--ink-md);line-height:1.7">
+                Enforcement protocols active across all registered zones. Geofence rules synced to mobile app.<br><br>
+                <strong style="color:var(--teal)">Next sync:</strong> every 5 minutes
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="nav-actions">
-        <div class="status-indicator">
-          <div class="status-dot"></div> System Live
-        </div>
-        <div class="profile-pill" onclick="logout()">
-          <div class="profile-avatar">A</div>
-          <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">Admin User</span>
-          <i class="fa fa-right-from-bracket" style="font-size: 12px; color: var(--text-dim);"></i>
+      <!-- ── REPORTS ── -->
+      <div id="view-reports" class="view">
+        <div class="page-eyebrow">Incident Management</div>
+        <div class="page-headline">Traffic Incident Reports</div>
+        <div class="section-card">
+          <div class="filter-bar">
+            <button class="filter-pill active" onclick="filterReports('all',this)">All</button>
+            <button class="filter-pill" onclick="filterReports('unverified',this)">Pending</button>
+            <button class="filter-pill" onclick="filterReports('verified',this)">Verified</button>
+            <button class="filter-pill" onclick="filterReports('action_taken',this)">Action Taken</button>
+            <button class="filter-pill" onclick="filterReports('rejected',this)">Rejected</button>
+          </div>
+          <div id="full-reports-list"></div>
         </div>
       </div>
-    </header>
 
-    <!-- 3-PANEL COMMAND HUB -->
-    <div class="hub-container">
-
-      <!-- LEFT SIDEBAR -->
-      <aside class="sidebar-nav">
-        <div class="nav-group-title">Analytics & Ops</div>
-        <div class="side-nav-item active" onclick="switchTab('dash', this)">
-          <i class="fa fa-chart-pie"></i> Overview Dashboard
+      <!-- ── DRIVERS ── -->
+      <div id="view-users" class="view">
+        <div class="page-eyebrow">Registrations</div>
+        <div class="page-headline">Registered Drivers</div>
+        <div class="section-card">
+          <div class="section-body" id="users-list"></div>
         </div>
-        <div class="side-nav-item" onclick="switchTab('reports', this)">
-          <i class="fa fa-triangle-exclamation"></i> Incident Reports
-        </div>
-        <div class="side-nav-item" onclick="switchTab('users', this)">
-          <i class="fa fa-users"></i> Registered Drivers
-        </div>
+      </div>
 
-        <div class="nav-group-title">Communications</div>
-        <div class="side-nav-item" onclick="switchTab('comms', this)">
-          <i class="fa fa-bullhorn"></i> Bulletins & Alerts
-        </div>
-      </aside>
-
-      <!-- CENTER MAIN STAGE -->
-      <main class="main-stage">
-
-        <!-- DASHBOARD VIEW -->
-        <div id="view-dash" class="view-pane active">
-          <!-- BENTO STAT CARDS -->
-          <div class="bento-grid">
-            <div class="bento-card">
-              <div class="card-top">
-                <div class="card-icon ic-indigo"><i class="fa fa-flag"></i></div>
-                <span style="font-size: 12px; color: var(--accent-emerald); font-weight: 700;">Active Feed</span>
-              </div>
-              <div class="card-num" id="stat-reports">0</div>
-              <div class="card-label">Total Traffic Reports</div>
-            </div>
-
-            <div class="bento-card">
-              <div class="card-top">
-                <div class="card-icon ic-purple"><i class="fa fa-users"></i></div>
-                <span style="font-size: 12px; color: var(--accent-primary); font-weight: 700;">Verified</span>
-              </div>
-              <div class="card-num" id="stat-users">0</div>
-              <div class="card-label">Registered Citizens</div>
-            </div>
-
-            <div class="bento-card">
-              <div class="card-top">
-                <div class="card-icon ic-emerald"><i class="fa fa-newspaper"></i></div>
-                <span style="font-size: 12px; color: var(--accent-emerald); font-weight: 700;">Published</span>
-              </div>
-              <div class="card-num" id="stat-briefs">0</div>
-              <div class="card-label">Legal Bulletins</div>
-            </div>
-
-            <div class="bento-card">
-              <div class="card-top">
-                <div class="card-icon ic-rose"><i class="fa fa-bell"></i></div>
-                <span style="font-size: 12px; color: var(--accent-rose); font-weight: 700;">Active Alerts</span>
-              </div>
-              <div class="card-num" id="stat-notifs">0</div>
-              <div class="card-label">Emergency Alerts</div>
-            </div>
+      <!-- ── BROADCASTS ── -->
+      <div id="view-comms" class="view">
+        <div class="page-eyebrow">Communications</div>
+        <div class="page-headline">Bulletins &amp; Alerts</div>
+        <div class="section-card">
+          <div class="section-head">
+            <div class="section-title">Published Broadcasts</div>
+            <button class="action-btn ab-teal" style="width:auto;margin:0;padding:8px 16px" onclick="openCreateModal('brief')"><i class="fa fa-plus"></i> New</button>
           </div>
-
-          <!-- RECENT INCIDENTS -->
-          <div class="panel-box">
-            <div class="panel-header">
-              <div class="panel-title"><i class="fa fa-list-check" style="color: var(--accent-primary);"></i> Recent Incident Submissions</div>
-              <button style="background: none; border: none; color: var(--accent-primary); font-weight: 700; cursor: pointer;" onclick="switchTab('reports')">View All Reports →</button>
-            </div>
-            <div id="recent-reports-container"></div>
-          </div>
+          <div class="section-body" id="comms-list"></div>
         </div>
-
-        <!-- REPORTS VIEW -->
-        <div id="view-reports" class="view-pane" style="display: none;">
-          <div class="panel-box">
-            <div class="panel-header">
-              <div class="panel-title"><i class="fa fa-triangle-exclamation" style="color: var(--accent-rose);"></i> All Traffic Incident Reports</div>
-            </div>
-
-            <div class="filter-tabs">
-              <button class="tab-btn active" onclick="filterReports('all', this)">All Submissions</button>
-              <button class="tab-btn" onclick="filterReports('unverified', this)">Pending Verification</button>
-              <button class="tab-btn" onclick="filterReports('verified', this)">Verified</button>
-              <button class="tab-btn" onclick="filterReports('action_taken', this)">Action Taken</button>
-              <button class="tab-btn" onclick="filterReports('rejected', this)">Rejected</button>
-            </div>
-
-            <div id="full-reports-container"></div>
-          </div>
-        </div>
-
-        <!-- USERS VIEW -->
-        <div id="view-users" class="view-pane" style="display: none;">
-          <div class="panel-box">
-            <div class="panel-header">
-              <div class="panel-title"><i class="fa fa-users" style="color: var(--accent-secondary);"></i> Registered Users</div>
-            </div>
-            <div id="users-container"></div>
-          </div>
-        </div>
-
-        <!-- COMMS VIEW -->
-        <div id="view-comms" class="view-pane" style="display: none;">
-          <div class="panel-box" style="margin-bottom: 20px;">
-            <div class="panel-header">
-              <div class="panel-title"><i class="fa fa-newspaper" style="color: var(--accent-emerald);"></i> Bulletins & Alerts Management</div>
-            </div>
-            <div id="bulletins-container"></div>
-          </div>
-        </div>
-
-      </main>
-
-      <!-- RIGHT WIDGET PANEL -->
-      <aside class="right-dock">
-        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 18px; padding: 18px;">
-          <div style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><i class="fa fa-bolt" style="color: var(--accent-amber);"></i> Quick Action Center</div>
-          <button class="btn-login" style="font-size: 13px; padding: 10px; margin-bottom: 8px;">Broadcast Emergency Alert</button>
-          <button class="btn-login" style="font-size: 13px; padding: 10px; background: #e2e8f0; color: var(--text-main); border: 1px solid var(--border);">Publish Legal Bulletin</button>
-        </div>
-
-        <div style="flex: 1; background: #f8fafc; border: 1px solid var(--border); border-radius: 18px; padding: 18px;">
-          <div style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><i class="fa fa-shield" style="color: var(--accent-cyan);"></i> System Monitoring</div>
-          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6; font-weight: 500;">
-            All system monitoring protocols operating normally. High contrast light UI active.
-          </div>
-        </div>
-      </aside>
+      </div>
 
     </div>
   </div>
 
-  <!-- FLOATING AI CHATBOT BUTTON & DROPDOWN WIDGET -->
-  <button class="ai-chat-fab" onclick="toggleAIChat()"><i class="fa fa-robot"></i></button>
-  
-  <div class="ai-chat-dropdown" id="ai-chat-box">
-    <div class="chat-head">
-      <div class="chat-bot-info">
-        <div class="bot-avatar"><i class="fa fa-brain"></i></div>
-        <div>
-          <div style="font-weight: 700; font-size: 14px; color: var(--text-main);">DriveLegal AI Assistant</div>
-          <div style="font-size: 11px; color: var(--accent-emerald); font-weight: 600;">● Online Command Bot</div>
-        </div>
+  <!-- AI DRAWER (right edge, NOT a corner fab) -->
+  <div class="ai-drawer" id="ai-drawer">
+    <div class="ai-drawer-head">
+      <div>
+        <div class="ai-drawer-title">AI Traffic Advisor</div>
+        <div class="ai-drawer-sub">Powered by DriveLegal Engine</div>
       </div>
-      <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="toggleAIChat()"><i class="fa fa-xmark"></i></button>
+      <button class="ai-close-btn" onclick="toggleAI()">✕</button>
     </div>
-    
-    <div class="chat-body" id="chat-messages">
-      <div class="msg-bubble msg-ai">Hello! I am your embedded DriveLegal Assistant. Ask me anything regarding fine databases, user reports, or legal clauses.</div>
+    <div class="ai-messages" id="ai-msgs">
+      <div class="ai-msg ai-msg-bot">
+        <div class="msg-bubble msg-bubble-bot">Hello, Admin. I can answer questions about fine rates, traffic law clauses, incident patterns, or driver statistics. What do you need?</div>
+        <div class="msg-time">Just now</div>
+      </div>
     </div>
-
-    <div class="chat-foot">
-      <input type="text" id="chat-input" placeholder="Type AI command or query..." onkeydown="if(event.key==='Enter')sendAIChat()" />
-      <button class="chat-send-btn" onclick="sendAIChat()"><i class="fa fa-paper-plane"></i></button>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" placeholder="Ask about any traffic rule, report or fine…" onkeydown="if(event.key==='Enter')sendAI()" />
+      <button class="ai-send" onclick="sendAI()"><i class="fa fa-paper-plane"></i></button>
     </div>
   </div>
 
-  <!-- REPORT DETAILS MODAL -->
-  <div class="modal-overlay" id="report-modal">
-    <div class="modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="font-weight:700; color:var(--text-main);">Incident Detailed Record</h3>
-        <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="closeModal('report-modal')"><i class="fa fa-xmark"></i></button>
+  <!-- OVERLAY + REPORT MODAL -->
+  <div class="overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Incident Record</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-      <div id="modal-report-content"></div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn-solid" id="modal-action-btn">Save</button>
+      </div>
     </div>
   </div>
 
   <script>
-    const API = window.location.hostname.includes('onrender.com') ? 'http://13.222.36.11:8000' : window.location.origin;
-    let SECRET = '';
-    let REPORTS = [];
+    const ROOT = window.location.origin;
+    let PASSKEY = '';
+    let ALL_REPORTS = [];
 
-    async function login() {
-      const sec = document.getElementById('admin-secret').value.trim();
-      if(!sec) return alert('Secret key required');
-      SECRET = sec;
+    /* ── TIME BANNER ── */
+    function updateTime() {
+      const n = new Date();
+      document.getElementById('banner-time').textContent = n.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+    }
+    setInterval(updateTime, 1000); updateTime();
+
+    /* ── AUTH ── */
+    async function doLogin() {
+      const k = document.getElementById('auth-key').value.trim();
+      if (!k) return;
+      PASSKEY = k;
       try {
-        await apiFetch('/api/admin/analytics');
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('app-shell').style.display = 'block';
-        loadDashboard();
-      } catch(e) { alert('Invalid Secret Key'); }
+        await call('/api/admin/analytics');
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadDash();
+      } catch { alert('Invalid passkey.'); }
+    }
+    function doLogout() {
+      PASSKEY = '';
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
     }
 
-    function logout() {
-      SECRET = '';
-      document.getElementById('app-shell').style.display = 'none';
-      document.getElementById('login-screen').style.display = 'flex';
-    }
-
-    async function apiFetch(path, opts={}) {
-      const res = await fetch(API + path, {
-        ...opts, headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': SECRET, ...(opts.headers||{}) }
+    async function call(path, opts = {}) {
+      const r = await fetch(ROOT + path, {
+        ...opts,
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': PASSKEY, ...(opts.headers || {}) }
       });
-      if(!res.ok) throw new Error('API Request Failed');
-      return res.json();
+      if (!r.ok) throw new Error('API error');
+      return r.json();
     }
 
-    function switchTab(viewId, el) {
-      document.querySelectorAll('.view-pane').forEach(v => v.style.display = 'none');
-      document.querySelectorAll('.side-nav-item').forEach(i => i.classList.remove('active'));
-      document.getElementById('view-' + viewId).style.display = 'block';
-      if(el) el.classList.add('active');
-
-      if(viewId === 'dash') loadDashboard();
-      if(viewId === 'reports') loadReports();
-      if(viewId === 'users') loadUsers();
-      if(viewId === 'comms') loadComms();
-    }
-
-    async function loadDashboard() {
-      const data = await apiFetch('/api/admin/analytics');
-      document.getElementById('stat-reports').textContent = data.total_reports || 0;
-      document.getElementById('stat-users').textContent = data.total_users || 0;
-      document.getElementById('stat-briefs').textContent = data.active_briefs || 0;
-      document.getElementById('stat-notifs').textContent = data.active_notifications || 0;
-      
-      renderReports('recent-reports-container', (data.recent_reports || []).slice(0, 5));
-    }
-
-    async function loadReports() {
-      const data = await apiFetch('/api/admin/reports');
-      REPORTS = data.reports || [];
-      renderReports('full-reports-container', REPORTS);
-    }
-
-    function filterReports(status, el) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    /* ── VIEW SWITCHING ── */
+    function switchView(id, el) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('view-' + id).classList.add('active');
       el.classList.add('active');
-      let filtered = REPORTS;
-      if(status !== 'all') filtered = REPORTS.filter(r => r.status === status);
-      renderReports('full-reports-container', filtered);
+      if (id === 'dash')    loadDash();
+      if (id === 'reports') loadReports();
+      if (id === 'users')   loadUsers();
+      if (id === 'comms')   loadComms();
     }
 
-    function renderReports(containerId, list) {
-      const c = document.getElementById(containerId);
-      if(!list.length) { c.innerHTML = '<div style="color:var(--text-muted); padding: 20px; text-align:center;">No incidents found.</div>'; return; }
+    /* ── DASHBOARD ── */
+    async function loadDash() {
+      const d = await call('/api/admin/analytics');
+      document.getElementById('m-reports').textContent = d.total_reports ?? '—';
+      document.getElementById('m-users').textContent   = d.total_users ?? '—';
+      document.getElementById('m-briefs').textContent  = d.active_briefs ?? '—';
+      document.getElementById('m-notifs').textContent  = d.active_notifications ?? '—';
+      renderRows('dash-reports-list', (d.recent_reports || []).slice(0, 6));
+    }
+
+    /* ── REPORTS ── */
+    async function loadReports() {
+      const d = await call('/api/admin/reports');
+      ALL_REPORTS = d.reports || [];
+      renderRows('full-reports-list', ALL_REPORTS);
+    }
+    function filterReports(status, el) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      renderRows('full-reports-list', status === 'all' ? ALL_REPORTS : ALL_REPORTS.filter(r => r.status === status));
+    }
+    function renderRows(cid, list) {
+      const c = document.getElementById(cid);
+      if (!list.length) { c.innerHTML = '<div style="padding:30px 24px;color:var(--ink-xs);text-align:center">No records found.</div>'; return; }
       c.innerHTML = list.map(r => `
-        <div class="report-card-item" onclick="openReportModal('${r.id}')">
-          <div class="rc-info">
-            <div class="rc-thumb"><i class="fa fa-image" style="color: var(--text-dim);"></i></div>
+        <div class="report-row" onclick="openReportModal('${r.id}')">
+          <div class="rr-left">
+            <div class="rr-icon"><i class="fa fa-flag" style="color:var(--ink-xs)"></i></div>
             <div>
-              <div class="rc-title">${r.typeLabel || r.type}</div>
-              <div class="rc-meta">${r.location || 'Unknown Location'} • ${new Date(r.timestamp).toLocaleDateString()}</div>
+              <div class="rr-name">${r.typeLabel || r.type}</div>
+              <div class="rr-meta">${r.location || 'Unknown'} · ${new Date(r.timestamp).toLocaleDateString('en-IN')}</div>
             </div>
           </div>
-          <div class="status-badge sb-${r.status}">${r.status}</div>
-        </div>
-      `).join('');
+          <span class="status-tag st-${r.status}">${r.status}</span>
+        </div>`).join('');
     }
 
     async function openReportModal(id) {
-      const r = await apiFetch('/api/admin/reports/' + id);
-      const c = document.getElementById('modal-report-content');
-      c.innerHTML = `
-        <div style="font-size: 14px; line-height: 1.8; color: var(--text-main);">
-          <div><strong>ID:</strong> ${r.id}</div>
-          <div><strong>Type:</strong> ${r.typeLabel || r.type}</div>
-          <div><strong>Location:</strong> ${r.location}</div>
-          <div><strong>Vehicle:</strong> ${r.vehicle_number || 'N/A'}</div>
-          <div><strong>Fine:</strong> ₹${r.fine_amount || 0}</div>
-          <div style="margin-top: 14px;">
-            <label style="display:block; font-weight:700; margin-bottom:6px;">Update Status:</label>
-            <select id="modal-status-select" class="input-field">
-              <option value="unverified" ${r.status==='unverified'?'selected':''}>Pending</option>
-              <option value="verified" ${r.status==='verified'?'selected':''}>Verified</option>
-              <option value="action_taken" ${r.status==='action_taken'?'selected':''}>Action Taken</option>
-              <option value="rejected" ${r.status==='rejected'?'selected':''}>Rejected</option>
-            </select>
-            <button class="btn-login" onclick="saveStatus('${r.id}')">Save Changes</button>
-          </div>
+      const r = await call('/api/admin/reports/' + id);
+      document.getElementById('modal-title').textContent = r.typeLabel || r.type;
+      document.getElementById('modal-body').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-bottom:20px">
+          <div><div style="font-size:11px;font-weight:700;color:var(--ink-xs);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Vehicle</div><div style="font-weight:600">${r.vehicle_number || 'N/A'}</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:var(--ink-xs);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Fine</div><div style="font-weight:600">₹${r.fine_amount || 0}</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:var(--ink-xs);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Location</div><div style="font-weight:600">${r.location}</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:var(--ink-xs);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">ID</div><div style="font-weight:600;font-size:12px">${r.id}</div></div>
         </div>
-      `;
-      document.getElementById('report-modal').classList.add('active');
+        <div style="font-size:13px;font-weight:700;color:var(--ink-xs);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Change Status</div>
+        <select class="modal-select" id="modal-status">
+          <option value="unverified" ${r.status==='unverified'?'selected':''}>Pending Verification</option>
+          <option value="verified"   ${r.status==='verified'  ?'selected':''}>Verified</option>
+          <option value="action_taken" ${r.status==='action_taken'?'selected':''}>Action Taken</option>
+          <option value="rejected"   ${r.status==='rejected'  ?'selected':''}>Rejected</option>
+        </select>`;
+      document.getElementById('modal-action-btn').onclick = () => saveStatus(r.id);
+      document.getElementById('modal-overlay').classList.add('open');
     }
-
     async function saveStatus(id) {
-      const val = document.getElementById('modal-status-select').value;
-      await apiFetch('/api/admin/reports/' + id + '/status', { method: 'PATCH', body: JSON.stringify({ status: val }) });
-      closeModal('report-modal');
-      loadReports();
+      await call('/api/admin/reports/' + id + '/status', { method: 'PATCH', body: JSON.stringify({ status: document.getElementById('modal-status').value }) });
+      closeModal(); loadReports();
+    }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+    function openCreateModal(type) {
+      document.getElementById('modal-title').textContent = type === 'notif' ? 'Broadcast Emergency Alert' : 'Publish Legal Bulletin';
+      document.getElementById('modal-body').innerHTML = `<textarea class="ai-input" style="width:100%;min-height:120px;resize:vertical" placeholder="Enter message text..."></textarea>`;
+      document.getElementById('modal-action-btn').textContent = 'Publish';
+      document.getElementById('modal-overlay').classList.add('open');
     }
 
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
+    /* ── USERS ── */
     async function loadUsers() {
-      const d = await apiFetch('/api/admin/users');
-      const c = document.getElementById('users-container');
-      c.innerHTML = (d.users||[]).map(u => `
-        <div class="report-card-item">
-          <div class="rc-info">
-            <div class="rc-thumb" style="background: var(--accent-primary); font-weight:700; color:#fff;">${(u.name||'U')[0]}</div>
+      const d = await call('/api/admin/users');
+      const c = document.getElementById('users-list');
+      c.innerHTML = (d.users || []).map(u => `
+        <div class="report-row">
+          <div class="rr-left">
+            <div class="rr-icon" style="background:var(--teal-lt);color:var(--teal);font-weight:800;font-size:15px">${(u.name||'?')[0]}</div>
             <div>
-              <div class="rc-title">${u.name||'User'}</div>
-              <div class="rc-meta">${u.email||u.phone||'N/A'}</div>
+              <div class="rr-name">${u.name || 'Driver'}</div>
+              <div class="rr-meta">${u.email || u.phone || 'N/A'}</div>
             </div>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
+    /* ── COMMS ── */
     async function loadComms() {
-      const d = await apiFetch('/api/admin/briefs');
-      const c = document.getElementById('bulletins-container');
-      c.innerHTML = (d.briefs||[]).map(b => `
-        <div class="report-card-item">
-          <div>
-            <div class="rc-title">${b.title}</div>
-            <div class="rc-meta">${b.desc}</div>
+      const d = await call('/api/admin/briefs');
+      const c = document.getElementById('comms-list');
+      c.innerHTML = (d.briefs || []).map(b => `
+        <div class="report-row">
+          <div class="rr-left">
+            <div class="rr-icon"><i class="fa fa-newspaper" style="color:var(--teal)"></i></div>
+            <div>
+              <div class="rr-name">${b.title}</div>
+              <div class="rr-meta">${b.desc}</div>
+            </div>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
-    function toggleAIChat() {
-      document.getElementById('ai-chat-box').classList.toggle('active');
+    /* ── AI DRAWER (not a corner FAB!) ── */
+    function toggleAI() {
+      document.getElementById('ai-drawer').classList.toggle('open');
     }
-
-    async function sendAIChat() {
-      const input = document.getElementById('chat-input');
-      const txt = input.value.trim();
-      if(!txt) return;
-      
-      const body = document.getElementById('chat-messages');
-      body.innerHTML += `<div class="msg-bubble msg-user">${txt}</div>`;
-      input.value = '';
-
+    async function sendAI() {
+      const inp = document.getElementById('ai-input');
+      const txt = inp.value.trim(); if (!txt) return;
+      const msgs = document.getElementById('ai-msgs');
+      msgs.innerHTML += `<div class="ai-msg ai-msg-user"><div class="msg-bubble msg-bubble-user">${txt}</div></div>`;
+      inp.value = '';
       try {
-        const res = await apiFetch('/api/ask', { method: 'POST', body: JSON.stringify({ query: txt }) });
-        body.innerHTML += `<div class="msg-bubble msg-ai">${res.answer || res.text || 'Done.'}</div>`;
-      } catch(e) {
-        body.innerHTML += `<div class="msg-bubble msg-ai">Offline fallback response active.</div>`;
+        const r = await call('/api/ask', { method: 'POST', body: JSON.stringify({ query: txt }) });
+        msgs.innerHTML += `<div class="ai-msg ai-msg-bot"><div class="msg-bubble msg-bubble-bot">${r.answer || r.text || 'OK'}</div></div>`;
+      } catch {
+        msgs.innerHTML += `<div class="ai-msg ai-msg-bot"><div class="msg-bubble msg-bubble-bot">Offline mode — local rule engine active.</div></div>`;
       }
-      body.scrollTop = body.scrollHeight;
+      msgs.scrollTop = msgs.scrollHeight;
     }
   </script>
 </body>

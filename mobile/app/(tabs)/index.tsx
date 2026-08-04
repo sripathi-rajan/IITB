@@ -1,21 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-  Linking,
-  ActivityIndicator,
-  Animated,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView,
-  Dimensions,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity,
+  Platform, Linking, ActivityIndicator, Modal, TextInput,
+  KeyboardAvoidingView, Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import * as Location from 'expo-location';
@@ -23,405 +13,276 @@ import { useSettings } from '../../hooks/useSettings';
 import { useAuth } from '../../hooks/useAuth';
 import { getApiBaseUrl } from '../../lib/api';
 
-const { width } = Dimensions.get('window');
+const W = Dimensions.get('window').width;
 
-// ── CRISP HIGH-CONTRAST LIGHT DESIGN SYSTEM TOKENS ──
-const T = {
-  bg: '#f8fafc',
-  panel: '#ffffff',
-  panelBorder: '#e2e8f0',
-  accentPrimary: '#4f46e5',
-  accentPurple: '#9333ea',
-  accentCyan: '#0284c7',
-  accentEmerald: '#059669',
-  accentRose: '#e11d48',
-  accentAmber: '#d97706',
-  textMain: '#0f172a',
-  textMuted: '#475569',
-  textDim: '#64748b',
+// ── COMPLETELY NEW DESIGN SYSTEM — Warm Earth / Teal Palette ──
+const C = {
+  cream:    '#faf7f2',
+  creamDk:  '#f0ebe3',
+  stone:    '#e7e5e4',
+  teal:     '#0d9488',
+  tealLt:   '#ccfbf1',
+  orange:   '#ea580c',
+  orangeLt: '#fff7ed',
+  amber:    '#d97706',
+  amberLt:  '#fffbeb',
+  green:    '#16a34a',
+  greenLt:  '#f0fdf4',
+  red:      '#dc2626',
+  redLt:    '#fff1f2',
+  ink:      '#1c1917',
+  inkMd:    '#44403c',
+  inkLt:    '#78716c',
+  inkXs:    '#a8a29e',
+  white:    '#ffffff',
 };
 
-interface ChatMessage {
-  id: string;
-  sender: 'ai' | 'user';
-  text: string;
-}
+interface Msg { id: string; from: 'bot' | 'user'; text: string; }
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const { t, profile, notificationsEnabled, sharedLocation, setSharedLocation } = useSettings();
+  const router   = useRouter();
+  const { t, profile, sharedLocation, setSharedLocation, notificationsEnabled } = useSettings();
   const { user } = useAuth();
 
-  const [briefs, setBriefs] = useState<any[]>([]);
-  const [loadingBriefs, setLoadingBriefs] = useState(true);
-  const [notificationCount, setNotificationCount] = useState(0);
-  const [greeting, setGreeting] = useState('WELCOME BACK');
+  const [briefs, setBriefs]           = useState<any[]>([]);
+  const [briefsLoading, setBL]        = useState(true);
+  const [timeOfDay, setTOD]           = useState('');
+  const [cityName, setCityName]       = useState('');
 
-  // ── FLOATING CORNER AI CHATBOT WIDGET STATE ──
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: '1', sender: 'ai', text: '⚡ DriveLegal AI active. How can I assist with traffic laws, fines, or rules today?' },
+  // ── AI CHAT — embedded as collapsible TOP banner, NOT a corner FAB ──
+  const [aiOpen, setAiOpen]   = useState(false);
+  const [msgs, setMsgs]       = useState<Msg[]>([
+    { id: '0', from: 'bot', text: 'Hi! Ask me about traffic rules, fines, or driving laws in India.' },
   ]);
-  const [chatInput, setChatInput] = useState('');
-  const [chatLoading, setChatLoading] = useState(false);
-  const chatScrollRef = useRef<ScrollView>(null);
+  const [draft, setDraft]     = useState('');
+  const [aiLoading, setAL]    = useState(false);
+  const chatRef               = useRef<ScrollView>(null);
 
+  // Greeting
   useEffect(() => {
-    const hr = new Date().getHours();
-    if (hr < 12) setGreeting('GOOD MORNING');
-    else if (hr < 18) setGreeting('GOOD AFTERNOON');
-    else setGreeting('GOOD EVENING');
+    const h = new Date().getHours();
+    setTOD(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
   }, []);
 
-  // Fetch Briefs
+  // Briefs
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/briefs`);
-        const data = await res.json();
-        if (data.status === 'ok' && data.briefs) setBriefs(data.briefs);
+        const r = await fetch(`${getApiBaseUrl()}/briefs`);
+        const d = await r.json();
+        if (d.status === 'ok' && d.briefs) { setBriefs(d.briefs); }
         else throw new Error();
       } catch {
         setBriefs([
-          { id: '1', title: 'New Expressway Speed Limits', desc: 'NHAI updated LMV speed limits to 120 kmph on major expressways.', icon: 'speedometer', iconBg: 'rgba(79,70,229,0.1)', iconColor: '#4f46e5' },
-          { id: '2', title: 'Digital RC & License Valid', desc: 'Traffic police must now accept digital documents via DigiLocker.', icon: 'cellphone-check', iconBg: 'rgba(5,150,105,0.1)', iconColor: '#059669' },
-          { id: '3', title: 'E-Challan Grace Extended', desc: 'Vehicle owners now have 45 days to dispute an e-challan.', icon: 'gavel', iconBg: 'rgba(217,119,6,0.1)', iconColor: '#d97706' },
+          { id: 'a', title: 'Expressway Speed Cap Update', desc: 'NHAI raised the LMV limit to 120 kmph on selected corridors.', tag: 'Speed', tagColor: C.teal, tagBg: C.tealLt },
+          { id: 'b', title: 'DigiLocker RC Now Legally Valid', desc: 'Officers must accept digital RC from DigiLocker without penalty.', tag: 'Documents', tagColor: C.orange, tagBg: C.orangeLt },
+          { id: 'c', title: '45-Day Challan Dispute Window', desc: 'RTO extended the dispute window for all e-challans.', tag: 'Fines', tagColor: C.amber, tagBg: C.amberLt },
         ]);
-      } finally {
-        setLoadingBriefs(false);
-      }
+      } finally { setBL(false); }
     })();
   }, []);
 
-  // Location Geofence Fetch
+  // Location
   useEffect(() => {
     (async () => {
       try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') return;
-        let loc: any;
+        const loc = await (Platform.OS === 'web'
+          ? Promise.race([Location.getCurrentPositionAsync({}), new Promise((_, r) => setTimeout(() => r(new Error()), 12000))])
+          : Location.getCurrentPositionAsync({})) as any;
         if (Platform.OS === 'web') {
-          try {
-            loc = await Promise.race([
-              Location.getCurrentPositionAsync({}),
-              new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 15000)),
-            ]);
-          } catch { loc = { coords: { latitude: 13.0827, longitude: 80.2707 } }; }
-        } else {
-          loc = await Location.getCurrentPositionAsync({});
+          const r2 = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${loc.coords.latitude}&longitude=${loc.coords.longitude}&localityLanguage=en`);
+          const d2 = await r2.json();
+          setCityName(d2.city || d2.locality || '');
+          setSharedLocation(p => ({ ...p, latitude: loc.coords.latitude, longitude: loc.coords.longitude, placeName: d2.city || d2.locality || 'Your City', regionName: d2.principalSubdivision || '' }));
         }
-
-        let placeName = 'Madurai', regionName = 'Tamil Nadu';
-        try {
-          if (Platform.OS === 'web') {
-            const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${loc.coords.latitude}&longitude=${loc.coords.longitude}&localityLanguage=en`);
-            const d = await r.json();
-            placeName = d.city || d.locality || 'Madurai';
-            regionName = d.principalSubdivision || 'Tamil Nadu';
-          }
-        } catch {}
-        setSharedLocation(prev => ({ ...prev, latitude: loc.coords.latitude, longitude: loc.coords.longitude, placeName, regionName }));
       } catch {}
     })();
   }, []);
 
-  // AI Chat send message
-  async function sendChatMessage() {
-    const msg = chatInput.trim();
-    if (!msg || chatLoading) return;
-    setChatMessages(prev => [...prev, { id: Date.now().toString(), sender: 'user', text: msg }]);
-    setChatInput('');
-    setChatLoading(true);
-    setTimeout(() => chatScrollRef.current?.scrollToEnd({ animated: true }), 100);
-
+  async function sendMsg() {
+    const q = draft.trim(); if (!q || aiLoading) return;
+    setMsgs(m => [...m, { id: Date.now().toString(), from: 'user', text: q }]);
+    setDraft(''); setAL(true);
+    setTimeout(() => chatRef.current?.scrollToEnd({ animated: true }), 80);
     try {
-      const res = await fetch(`${getApiBaseUrl()}/ask`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: msg }),
-      });
-      const data = await res.json();
-      setChatMessages(prev => [...prev, { id: (Date.now() + 1).toString(), sender: 'ai', text: data.answer || data.text || 'Command processed.' }]);
+      const r = await fetch(`${getApiBaseUrl()}/ask`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: q }) });
+      const d = await r.json();
+      setMsgs(m => [...m, { id: (Date.now()+1).toString(), from: 'bot', text: d.answer || d.text || 'Processed.' }]);
     } catch {
-      setChatMessages(prev => [...prev, { id: (Date.now() + 1).toString(), sender: 'ai', text: 'Local legal rule engine processed your query.' }]);
-    } finally {
-      setChatLoading(false);
-      setTimeout(() => chatScrollRef.current?.scrollToEnd({ animated: true }), 100);
-    }
+      setMsgs(m => [...m, { id: (Date.now()+1).toString(), from: 'bot', text: 'Fallback: local legal rule engine active.' }]);
+    } finally { setAL(false); setTimeout(() => chatRef.current?.scrollToEnd({ animated: true }), 80); }
   }
 
-  const driverName = (user?.name || profile.name || 'Driver').split(' ')[0];
+  const name = (user?.name || profile.name || 'Driver').split(' ')[0];
 
   return (
-    <SafeAreaView style={S.container}>
+    <SafeAreaView style={s.root}>
       <StatusBar style="dark" />
-      
-      <ScrollView contentContainerStyle={S.scrollBody} showsVerticalScrollIndicator={false}>
-        
-        {/* ── TOP RESTRUCTURED APP HEADER ── */}
-        <View style={S.appHeader}>
-          <View style={S.driverProfileRow}>
-            <View style={S.avatarRing}>
-              <Text style={S.avatarInitial}>{driverName[0]}</Text>
-            </View>
-            <View>
-              <Text style={S.greetingSub}>{greeting}</Text>
-              <Text style={S.driverNameText}>{driverName}</Text>
-            </View>
-          </View>
 
-          <TouchableOpacity style={S.notifBellBtn} onPress={() => router.push('/notifications')}>
-            <Ionicons name="notifications-outline" size={20} color={T.textMain} />
-            {notificationsEnabled && notificationCount > 0 && (
-              <View style={S.badgeDot} />
-            )}
+      {/* ── TOP APP BAR (different layout: wordmark left, profile right) ── */}
+      <View style={s.topBar}>
+        <View>
+          <Text style={s.wordmark}>Traffic<Text style={s.wordmarkAccent}>OS</Text></Text>
+          <Text style={s.topBarSub}>{cityName ? `📍 ${cityName}` : 'Traffic Law Companion'}</Text>
+        </View>
+        <View style={s.topBarRight}>
+          <TouchableOpacity onPress={() => router.push('/notifications')} style={s.topBtn}>
+            <Ionicons name="notifications-outline" size={20} color={C.inkMd} />
+          </TouchableOpacity>
+          <TouchableOpacity style={s.avatarWrap} onPress={() => router.push('/(tabs)/settings')}>
+            <Text style={s.avatarLetter}>{name[0]}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
+
+        {/* ── EDITORIAL HERO — a greeting card, NOT a gauge ── */}
+        <View style={s.heroCard}>
+          <Text style={s.heroGreeting}>{timeOfDay},</Text>
+          <Text style={s.heroName}>{name}.</Text>
+          <Text style={s.heroBody}>You're covered. Here's your daily traffic law brief for the road ahead.</Text>
+          <TouchableOpacity style={s.heroBtn} onPress={() => router.push('/(tabs)/fines')}>
+            <Text style={s.heroBtnText}>Check My Challans</Text>
+            <Ionicons name="arrow-forward" size={16} color={C.white} />
           </TouchableOpacity>
         </View>
 
-        {/* ── HUD SAFETY SCORE & LIVE GEOFENCE HERO CARD (LIGHT THEME) ── */}
-        <View style={S.hudHeroCard}>
-          <View style={S.hudHeaderRow}>
-            <View style={S.liveBadge}>
-              <View style={S.livePulseDot} />
-              <Text style={S.liveBadgeText}>LIVE TELEMETRY & GPS</Text>
-            </View>
-            <Ionicons name="shield-checkmark" size={20} color={T.accentEmerald} />
+        {/* ── AI ASSISTANT — collapsible top section, NOT a corner FAB ── */}
+        <TouchableOpacity style={s.aiToggleRow} onPress={() => setAiOpen(!aiOpen)} activeOpacity={0.8}>
+          <View style={s.aiToggleLeft}>
+            <View style={s.aiDotBadge} />
+            <Text style={s.aiToggleLabel}>AI Legal Advisor</Text>
           </View>
-
-          <View style={S.hudMainStatsRow}>
-            <View style={S.gaugeWrap}>
-              <Text style={S.gaugeNumber}>{sharedLocation.speedLimit || 50}</Text>
-              <Text style={S.gaugeUnit}>KMPH MAX</Text>
-            </View>
-            <View style={S.hudGeoDetails}>
-              <Text style={S.geoPlaceName} numberOfLines={1}>{sharedLocation.placeName || 'Madurai'}</Text>
-              <Text style={S.geoRegionName}>{sharedLocation.regionName || 'Tamil Nadu'} • Zone Active</Text>
-              <View style={S.statusTagRow}>
-                <View style={S.statusTag}>
-                  <Text style={S.statusTagText}>HELMET REQ</Text>
-                </View>
-                <View style={[S.statusTag, { backgroundColor: 'rgba(2,132,199,0.12)' }]}>
-                  <Text style={[S.statusTagText, { color: T.accentCyan }]}>SEATBELT OK</Text>
-                </View>
-              </View>
-            </View>
+          <View style={s.aiToggleRight}>
+            <Text style={s.aiToggleSub}>Ask anything about traffic law</Text>
+            <Ionicons name={aiOpen ? 'chevron-up' : 'chevron-down'} size={16} color={C.teal} />
           </View>
-        </View>
-
-        {/* ── EMERGENCY SOS QUICK ALERT BAR ── */}
-        <TouchableOpacity style={S.sosAlertBar} onPress={() => router.push('/sos')} activeOpacity={0.85}>
-          <View style={S.sosIconCircle}>
-            <Ionicons name="warning-outline" size={22} color={T.accentRose} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={S.sosBarTitle}>EMERGENCY SOS ASSIST</Text>
-            <Text style={S.sosBarSub}>Instant 112 Dispatch & Alert Authorities</Text>
-          </View>
-          <Feather name="arrow-right-circle" size={20} color={T.accentRose} />
         </TouchableOpacity>
 
-        {/* ── BENTO GRID MODULES ── */}
-        <Text style={S.sectionHeading}>COMMAND HUB & TOOLS</Text>
-        
-        <View style={S.bentoGridWrap}>
-          {/* Fines Lookup Card */}
-          <TouchableOpacity style={S.bentoTileFull} onPress={() => router.push('/(tabs)/fines')} activeOpacity={0.85}>
-            <View style={S.bentoTileIconWrap}>
-              <Ionicons name="receipt-outline" size={22} color={T.accentPrimary} />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={S.bentoTileTitle}>Check Fines & Challans</Text>
-              <Text style={S.bentoTileSub}>Instant vehicle registration lookup & dispute calculator</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={18} color={T.textDim} />
-          </TouchableOpacity>
-
-          {/* 2-Column Sub Grid */}
-          <View style={S.bentoRow}>
-            <TouchableOpacity style={S.bentoTileHalf} onPress={() => router.push('/settings/documents')} activeOpacity={0.85}>
-              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(2,132,199,0.1)' }]}>
-                <Ionicons name="folder-open-outline" size={20} color={T.accentCyan} />
-              </View>
-              <Text style={S.bentoTileTitle}>Doc Vault</Text>
-              <Text style={S.bentoTileSub}>Digital RC & License</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={S.bentoTileHalf} onPress={() => router.push('/(tabs)/report')} activeOpacity={0.85}>
-              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(147,51,234,0.1)' }]}>
-                <Ionicons name="megaphone-outline" size={20} color={T.accentPurple} />
-              </View>
-              <Text style={S.bentoTileTitle}>File Incident</Text>
-              <Text style={S.bentoTileSub}>Report Violations</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* ── TODAY'S BRIEFING FEED ── */}
-        <View style={S.briefHeaderRow}>
-          <Text style={S.sectionHeading}>TRAFFIC & LEGAL BRIEFINGS</Text>
-        </View>
-
-        {loadingBriefs ? (
-          <ActivityIndicator size="small" color={T.accentPrimary} style={{ marginTop: 20 }} />
-        ) : (
-          briefs.map(b => (
-            <TouchableOpacity key={b.id} style={S.briefCardItem} activeOpacity={0.85} onPress={() => b.link ? Linking.openURL(b.link) : null}>
-              <View style={S.briefIconBox}>
-                <MaterialCommunityIcons name={(b.icon as any) || 'newspaper'} size={20} color={T.accentPrimary} />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={S.briefCardTitle}>{b.title}</Text>
-                <Text style={S.briefCardDesc}>{b.desc}</Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
-
-      </ScrollView>
-
-      {/* ── FLOATING AI ASSISTANT DROPDOWN WIDGET (RIGHT BOTTOM CORNER) ── */}
-      <TouchableOpacity style={S.floatingAiFab} onPress={() => setChatOpen(true)} activeOpacity={0.9}>
-        <Ionicons name="sparkles" size={24} color="#fff" />
-      </TouchableOpacity>
-
-      {/* AI CHATBOT DROPDOWN OVERLAY / SLIDE-OUT MODAL */}
-      <Modal visible={chatOpen} animationType="slide" transparent presentationStyle="overFullScreen" onRequestClose={() => setChatOpen(false)}>
-        <KeyboardAvoidingView style={S.chatModalContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => setChatOpen(false)} activeOpacity={1} />
-          
-          <View style={S.chatModalBox}>
-            {/* Header */}
-            <View style={S.chatHeaderBar}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                <View style={S.chatBotIconCircle}>
-                  <Ionicons name="robot-outline" size={18} color="#fff" />
-                </View>
-                <View>
-                  <Text style={S.chatTitleText}>DriveLegal AI Assistant</Text>
-                  <Text style={S.chatSubText}>Right-Corner Embedded Widget</Text>
-                </View>
-              </View>
-              <TouchableOpacity onPress={() => setChatOpen(false)}>
-                <Ionicons name="close-circle" size={24} color={T.textMuted} />
-              </TouchableOpacity>
-            </View>
-
-            {/* Message Stream */}
-            <ScrollView ref={chatScrollRef} style={S.chatScrollStream} contentContainerStyle={{ gap: 10, padding: 16 }}>
-              {chatMessages.map(m => (
-                <View key={m.id} style={[S.msgRow, m.sender === 'user' ? S.msgRowUser : S.msgRowAi]}>
-                  <Text style={[S.chatBubbleText, m.sender === 'user' ? S.chatBubbleUser : S.chatBubbleAi]}>
-                    {m.text}
-                  </Text>
+        {aiOpen && (
+          <View style={s.aiPanel}>
+            <ScrollView ref={chatRef} style={s.aiScroll} contentContainerStyle={{ gap: 10, padding: 14 }}>
+              {msgs.map(m => (
+                <View key={m.id} style={[s.msgWrap, m.from === 'user' ? s.msgRight : s.msgLeft]}>
+                  <Text style={[s.msgText, m.from === 'user' ? s.msgUser : s.msgBot]}>{m.text}</Text>
                 </View>
               ))}
-              {chatLoading && (
-                <View style={S.msgRowAi}>
-                  <ActivityIndicator size="small" color={T.accentPrimary} />
-                </View>
-              )}
+              {aiLoading && <ActivityIndicator size="small" color={C.teal} style={{ alignSelf: 'flex-start' }} />}
             </ScrollView>
-
-            {/* Foot Input */}
-            <View style={S.chatFootRow}>
-              <TextInput
-                style={S.chatTextInput}
-                value={chatInput}
-                onChangeText={setChatInput}
-                placeholder="Ask legal query or challan rule..."
-                placeholderTextColor={T.textDim}
-                onSubmitEditing={sendChatMessage}
-              />
-              <TouchableOpacity style={S.chatSendBtn} onPress={sendChatMessage}>
-                <Ionicons name="send" size={16} color="#fff" />
+            <View style={s.aiInputRow}>
+              <TextInput style={s.aiInput} value={draft} onChangeText={setDraft} placeholder="Type your question…" placeholderTextColor={C.inkXs} onSubmitEditing={sendMsg} />
+              <TouchableOpacity style={s.aiSend} onPress={sendMsg}>
+                <Ionicons name="arrow-up" size={18} color={C.white} />
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
-      </Modal>
+        )}
 
+        {/* ── HORIZONTAL SCROLL QUICK ACTIONS — not a 2x2 bento grid ── */}
+        <Text style={s.sectionLabel}>QUICK ACCESS</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.pillRow}>
+          {[
+            { icon: 'receipt-outline',      label: 'Challans',  color: C.teal,   bg: C.tealLt,   route: '/(tabs)/fines' },
+            { icon: 'map-outline',          label: 'Map',       color: C.orange, bg: C.orangeLt, route: '/(tabs)/map' },
+            { icon: 'megaphone-outline',    label: 'Report',    color: C.amber,  bg: C.amberLt,  route: '/(tabs)/report' },
+            { icon: 'folder-open-outline',  label: 'Docs',      color: C.green,  bg: C.greenLt,  route: '/settings/documents' },
+            { icon: 'warning-outline',      label: 'SOS',       color: C.red,    bg: C.redLt,    route: '/sos' },
+          ].map(item => (
+            <TouchableOpacity key={item.label} style={[s.pillCard, { backgroundColor: item.bg }]} onPress={() => router.push(item.route as any)} activeOpacity={0.8}>
+              <View style={[s.pillIconWrap, { backgroundColor: C.white }]}>
+                <Ionicons name={item.icon as any} size={20} color={item.color} />
+              </View>
+              <Text style={[s.pillLabel, { color: item.color }]}>{item.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* ── TODAY'S LEGAL BRIEFINGS — editorial newspaper style ── */}
+        <Text style={s.sectionLabel}>TODAY'S BRIEFING</Text>
+        <View style={s.dividerBar} />
+
+        {briefsLoading ? (
+          <ActivityIndicator size="small" color={C.teal} style={{ marginTop: 20 }} />
+        ) : briefs.map((b, i) => (
+          <TouchableOpacity key={b.id} style={s.briefItem} onPress={() => b.link ? Linking.openURL(b.link) : null} activeOpacity={0.85}>
+            <Text style={s.briefIndex}>{String(i + 1).padStart(2, '0')}</Text>
+            <View style={s.briefContent}>
+              <View style={[s.briefTag, { backgroundColor: b.tagBg || C.tealLt }]}>
+                <Text style={[s.briefTagText, { color: b.tagColor || C.teal }]}>{b.tag || 'Update'}</Text>
+              </View>
+              <Text style={s.briefTitle}>{b.title}</Text>
+              <Text style={s.briefDesc}>{b.desc}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-// ── CRISP LIGHT STYLESHEET ──
-const S = StyleSheet.create({
-  container: { flex: 1, backgroundColor: T.bg },
-  scrollBody: { padding: 20, paddingBottom: 110 },
+const s = StyleSheet.create({
+  root:   { flex: 1, backgroundColor: C.cream },
+  scroll: { paddingBottom: 110 },
 
-  /* App Header */
-  appHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
-  driverProfileRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  avatarRing: { width: 42, height: 42, borderRadius: 21, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
-  avatarInitial: { color: '#fff', fontWeight: '800', fontSize: 16 },
-  greetingSub: { color: T.textDim, fontSize: 10, fontWeight: '800', letterSpacing: 0.8 },
-  driverNameText: { color: T.textMain, fontSize: 18, fontWeight: '800' },
-  notifBellBtn: { width: 40, height: 40, borderRadius: 14, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.04, shadowRadius: 4 },
-  badgeDot: { position: 'absolute', top: 10, right: 10, width: 8, height: 8, borderRadius: 4, backgroundColor: T.accentRose },
+  /* Top App Bar */
+  topBar:       { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 22, paddingTop: 8, paddingBottom: 12 },
+  wordmark:     { fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif', fontSize: 24, fontWeight: '700', color: C.ink, letterSpacing: -0.5 },
+  wordmarkAccent: { color: C.teal },
+  topBarSub:    { fontSize: 12, color: C.inkLt, fontWeight: '500', marginTop: 1 },
+  topBarRight:  { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  topBtn:       { width: 38, height: 38, borderRadius: 12, backgroundColor: C.white, borderWidth: 1, borderColor: C.stone, justifyContent: 'center', alignItems: 'center' },
+  avatarWrap:   { width: 38, height: 38, borderRadius: 19, backgroundColor: C.teal, justifyContent: 'center', alignItems: 'center' },
+  avatarLetter: { color: C.white, fontWeight: '800', fontSize: 15 },
 
-  /* HUD Hero Card */
-  hudHeroCard: { backgroundColor: T.panel, borderRadius: 24, borderWidth: 1, borderColor: T.panelBorder, padding: 20, marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.04, shadowRadius: 10 },
-  hudHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  liveBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, backgroundColor: 'rgba(5,150,105,0.08)' },
-  livePulseDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: T.accentEmerald },
-  liveBadgeText: { fontSize: 10, fontWeight: '800', color: T.accentEmerald, letterSpacing: 0.5 },
-  hudMainStatsRow: { flexDirection: 'row', alignItems: 'center', gap: 20 },
-  gaugeWrap: { padding: 14, borderRadius: 18, backgroundColor: 'rgba(79,70,229,0.08)', alignItems: 'center', justifyContent: 'center', minWidth: 95 },
-  gaugeNumber: { fontSize: 28, fontWeight: '800', color: T.accentPrimary },
-  gaugeUnit: { fontSize: 9, fontWeight: '800', color: T.textMuted, marginTop: 2 },
-  hudGeoDetails: { flex: 1 },
-  geoPlaceName: { fontSize: 18, fontWeight: '800', color: T.textMain, marginBottom: 2 },
-  geoRegionName: { fontSize: 12, color: T.textMuted, fontWeight: '600', marginBottom: 10 },
-  statusTagRow: { flexDirection: 'row', gap: 6 },
-  statusTag: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: 'rgba(217,119,6,0.12)' },
-  statusTagText: { fontSize: 9, fontWeight: '800', color: T.accentAmber },
+  /* Hero Card */
+  heroCard:   { marginHorizontal: 18, marginBottom: 20, backgroundColor: C.teal, borderRadius: 24, padding: 26, overflow: 'hidden' },
+  heroGreeting:{ fontSize: 16, color: 'rgba(255,255,255,0.7)', fontWeight: '500', marginBottom: 2 },
+  heroName:   { fontSize: 32, color: C.white, fontWeight: '800', marginBottom: 10, letterSpacing: -0.5 },
+  heroBody:   { fontSize: 14, color: 'rgba(255,255,255,0.8)', lineHeight: 21, marginBottom: 24, fontWeight: '400' },
+  heroBtn:    { flexDirection: 'row', alignItems: 'center', gap: 8, alignSelf: 'flex-start', backgroundColor: 'rgba(255,255,255,0.2)', paddingHorizontal: 18, paddingVertical: 11, borderRadius: 30, borderWidth: 1, borderColor: 'rgba(255,255,255,0.4)' },
+  heroBtnText:{ color: C.white, fontWeight: '700', fontSize: 14 },
 
-  /* Emergency SOS Bar */
-  sosAlertBar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, backgroundColor: 'rgba(225,29,72,0.06)', borderWidth: 1, borderColor: 'rgba(225,29,72,0.2)', marginBottom: 24 },
-  sosIconCircle: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(225,29,72,0.12)', justifyContent: 'center', alignItems: 'center' },
-  sosBarTitle: { fontSize: 13, fontWeight: '800', color: T.accentRose },
-  sosBarSub: { fontSize: 11, color: T.textMuted, fontWeight: '500' },
+  /* AI Toggle Row */
+  aiToggleRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 18, marginBottom: 2, backgroundColor: C.white, borderRadius: 16, padding: 14, borderWidth: 1, borderColor: C.stone },
+  aiToggleLeft: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  aiDotBadge:   { width: 8, height: 8, borderRadius: 4, backgroundColor: C.teal },
+  aiToggleLabel:{ fontSize: 14, fontWeight: '700', color: C.ink },
+  aiToggleRight:{ flexDirection: 'row', alignItems: 'center', gap: 6 },
+  aiToggleSub:  { fontSize: 12, color: C.inkLt },
 
-  /* Bento Grid */
-  sectionHeading: { fontSize: 11, fontWeight: '800', color: T.textDim, letterSpacing: 1, marginBottom: 14 },
-  bentoGridWrap: { gap: 12, marginBottom: 24 },
-  bentoTileFull: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 6 },
-  bentoTileIconWrap: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(79,70,229,0.08)', justifyContent: 'center', alignItems: 'center' },
-  bentoTileTitle: { fontSize: 15, fontWeight: '800', color: T.textMain, marginBottom: 2 },
-  bentoTileSub: { fontSize: 12, color: T.textMuted, fontWeight: '500' },
-  bentoRow: { flexDirection: 'row', gap: 12 },
-  bentoTileHalf: { flex: 1, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 6 },
+  /* AI Panel */
+  aiPanel:    { marginHorizontal: 18, marginBottom: 20, backgroundColor: C.white, borderRadius: 16, borderWidth: 1, borderColor: C.stone, overflow: 'hidden' },
+  aiScroll:   { maxHeight: 260 },
+  msgWrap:    { maxWidth: '80%' },
+  msgLeft:    { alignSelf: 'flex-start' },
+  msgRight:   { alignSelf: 'flex-end' },
+  msgText:    { padding: 12, borderRadius: 14, fontSize: 13, lineHeight: 19 },
+  msgBot:     { backgroundColor: C.cream, color: C.ink, borderTopLeftRadius: 4 },
+  msgUser:    { backgroundColor: C.teal, color: C.white, borderTopRightRadius: 4 },
+  aiInputRow: { flexDirection: 'row', gap: 8, padding: 12, borderTopWidth: 1, borderTopColor: C.stone, backgroundColor: C.cream },
+  aiInput:    { flex: 1, paddingHorizontal: 14, paddingVertical: 10, backgroundColor: C.white, borderRadius: 12, borderWidth: 1, borderColor: C.stone, fontSize: 13, color: C.ink },
+  aiSend:     { width: 40, height: 40, borderRadius: 12, backgroundColor: C.teal, justifyContent: 'center', alignItems: 'center' },
 
-  /* Briefings Feed */
-  briefHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  briefCardItem: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: 16, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, marginBottom: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 4 },
-  briefIconBox: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(79,70,229,0.08)', justifyContent: 'center', alignItems: 'center' },
-  briefCardTitle: { fontSize: 14, fontWeight: '800', color: T.textMain, marginBottom: 2 },
-  briefCardDesc: { fontSize: 12, color: T.textMuted, lineHeight: 16, fontWeight: '500' },
+  /* Section Labels */
+  sectionLabel: { fontSize: 11, fontWeight: '800', letterSpacing: 1.2, color: C.inkXs, marginHorizontal: 22, marginTop: 24, marginBottom: 12 },
 
-  /* FLOATING AI FAB IN BOTTOM RIGHT CORNER */
-  floatingAiFab: {
-    position: 'absolute', bottom: 30, right: 20, zIndex: 999,
-    width: 58, height: 58, borderRadius: 29, backgroundColor: T.accentPrimary,
-    justifyContent: 'center', alignItems: 'center',
-    shadowColor: T.accentPrimary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 12
-  },
+  /* Horizontal Pill Row */
+  pillRow:    { paddingHorizontal: 18, gap: 10, paddingBottom: 4 },
+  pillCard:   { alignItems: 'center', paddingVertical: 14, paddingHorizontal: 18, borderRadius: 20, gap: 8, minWidth: 80 },
+  pillIconWrap: { width: 44, height: 44, borderRadius: 14, justifyContent: 'center', alignItems: 'center' },
+  pillLabel:  { fontSize: 12, fontWeight: '700' },
 
-  /* Chat Modal Widget */
-  chatModalContainer: { flex: 1, justifyContent: 'flex-end' },
-  chatModalBox: { backgroundColor: '#ffffff', borderTopLeftRadius: 28, borderTopRightRadius: 28, borderWidth: 1, borderColor: T.panelBorder, maxHeight: '80%', minHeight: 440 },
-  chatHeaderBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderColor: T.panelBorder, backgroundColor: '#f8fafc' },
-  chatBotIconCircle: { width: 32, height: 32, borderRadius: 10, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
-  chatTitleText: { fontSize: 14, fontWeight: '800', color: T.textMain },
-  chatSubText: { fontSize: 11, color: T.accentEmerald, fontWeight: '600' },
-  chatScrollStream: { flex: 1 },
-  msgRow: { maxWidth: '82%' },
-  msgRowAi: { alignSelf: 'flex-start' },
-  msgRowUser: { alignSelf: 'flex-end' },
-  chatBubbleText: { padding: 12, borderRadius: 16, fontSize: 13, lineHeight: 18, fontWeight: '500' },
-  chatBubbleAi: { backgroundColor: '#f1f5f9', color: T.textMain, borderTopLeftRadius: 4 },
-  chatBubbleUser: { backgroundColor: T.accentPrimary, color: '#fff', borderTopRightRadius: 4 },
-  chatFootRow: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 14, borderTopWidth: 1, borderColor: T.panelBorder, backgroundColor: '#f8fafc' },
-  chatTextInput: { flex: 1, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 14, backgroundColor: '#ffffff', borderWidth: 1, borderColor: T.panelBorder, color: T.textMain, fontSize: 13, fontWeight: '500' },
-  chatSendBtn: { width: 38, height: 38, borderRadius: 12, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
+  /* Briefing Editorial Style */
+  dividerBar: { height: 2, backgroundColor: C.ink, marginHorizontal: 22, marginBottom: 20 },
+  briefItem:  { flexDirection: 'row', gap: 16, paddingHorizontal: 22, paddingVertical: 18, borderBottomWidth: 1, borderBottomColor: C.stone },
+  briefIndex: { fontFamily: Platform.OS === 'ios' ? 'Georgia' : 'serif', fontSize: 22, fontWeight: '700', color: C.stone, lineHeight: 24 },
+  briefContent:{ flex: 1 },
+  briefTag:   { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, marginBottom: 6 },
+  briefTagText:{ fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
+  briefTitle: { fontSize: 16, fontWeight: '800', color: C.ink, marginBottom: 4, lineHeight: 22 },
+  briefDesc:  { fontSize: 13, color: C.inkMd, lineHeight: 19 },
 });
