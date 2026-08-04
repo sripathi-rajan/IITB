@@ -25,20 +25,20 @@ import { getApiBaseUrl } from '../../lib/api';
 
 const { width } = Dimensions.get('window');
 
-// ── NEW MODERN DESIGN SYSTEM TOKENS ──
+// ── CRISP HIGH-CONTRAST LIGHT DESIGN SYSTEM TOKENS ──
 const T = {
-  bg: '#040711',
-  panel: '#0a0f1d',
-  panelBorder: 'rgba(255, 255, 255, 0.08)',
-  accentPrimary: '#6366f1',
-  accentPurple: '#a855f7',
-  accentCyan: '#06b6d4',
-  accentEmerald: '#10b981',
-  accentRose: '#f43f5e',
-  accentAmber: '#f59e0b',
-  textMain: '#f9fafb',
-  textMuted: '#9ca3af',
-  textDim: '#4b5563',
+  bg: '#f8fafc',
+  panel: '#ffffff',
+  panelBorder: '#e2e8f0',
+  accentPrimary: '#4f46e5',
+  accentPurple: '#9333ea',
+  accentCyan: '#0284c7',
+  accentEmerald: '#059669',
+  accentRose: '#e11d48',
+  accentAmber: '#d97706',
+  textMain: '#0f172a',
+  textMuted: '#475569',
+  textDim: '#64748b',
 };
 
 interface ChatMessage {
@@ -65,7 +65,6 @@ export default function HomeScreen() {
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
   const chatScrollRef = useRef<ScrollView>(null);
-  const fabScale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const hr = new Date().getHours();
@@ -84,9 +83,9 @@ export default function HomeScreen() {
         else throw new Error();
       } catch {
         setBriefs([
-          { id: '1', title: 'New Expressway Speed Limits', desc: 'NHAI updated LMV speed limits to 120 kmph on major expressways.', icon: 'speedometer', iconBg: 'rgba(99,102,241,0.15)', iconColor: '#6366f1' },
-          { id: '2', title: 'Digital RC & License Valid', desc: 'Traffic police must now accept digital documents via DigiLocker.', icon: 'cellphone-check', iconBg: 'rgba(16,185,129,0.15)', iconColor: '#10b981' },
-          { id: '3', title: 'E-Challan Grace Extended', desc: 'Vehicle owners now have 45 days to dispute an e-challan.', icon: 'gavel', iconBg: 'rgba(245,158,11,0.15)', iconColor: '#f59e0b' },
+          { id: '1', title: 'New Expressway Speed Limits', desc: 'NHAI updated LMV speed limits to 120 kmph on major expressways.', icon: 'speedometer', iconBg: 'rgba(79,70,229,0.1)', iconColor: '#4f46e5' },
+          { id: '2', title: 'Digital RC & License Valid', desc: 'Traffic police must now accept digital documents via DigiLocker.', icon: 'cellphone-check', iconBg: 'rgba(5,150,105,0.1)', iconColor: '#059669' },
+          { id: '3', title: 'E-Challan Grace Extended', desc: 'Vehicle owners now have 45 days to dispute an e-challan.', icon: 'gavel', iconBg: 'rgba(217,119,6,0.1)', iconColor: '#d97706' },
         ]);
       } finally {
         setLoadingBriefs(false);
@@ -112,12 +111,12 @@ export default function HomeScreen() {
           loc = await Location.getCurrentPositionAsync({});
         }
 
-        let placeName = 'Chennai', regionName = 'Tamil Nadu';
+        let placeName = 'Madurai', regionName = 'Tamil Nadu';
         try {
           if (Platform.OS === 'web') {
             const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${loc.coords.latitude}&longitude=${loc.coords.longitude}&localityLanguage=en`);
             const d = await r.json();
-            placeName = d.city || d.locality || 'Chennai';
+            placeName = d.city || d.locality || 'Madurai';
             regionName = d.principalSubdivision || 'Tamil Nadu';
           }
         } catch {}
@@ -155,7 +154,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={S.container}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       
       <ScrollView contentContainerStyle={S.scrollBody} showsVerticalScrollIndicator={false}>
         
@@ -179,7 +178,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* ── NEW HUD SAFETY SCORE & LIVE GEOFENCE HERO CARD ── */}
+        {/* ── HUD SAFETY SCORE & LIVE GEOFENCE HERO CARD (LIGHT THEME) ── */}
         <View style={S.hudHeroCard}>
           <View style={S.hudHeaderRow}>
             <View style={S.liveBadge}>
@@ -195,13 +194,13 @@ export default function HomeScreen() {
               <Text style={S.gaugeUnit}>KMPH MAX</Text>
             </View>
             <View style={S.hudGeoDetails}>
-              <Text style={S.geoPlaceName} numberOfLines={1}>{sharedLocation.placeName || 'Detecting...'}</Text>
+              <Text style={S.geoPlaceName} numberOfLines={1}>{sharedLocation.placeName || 'Madurai'}</Text>
               <Text style={S.geoRegionName}>{sharedLocation.regionName || 'Tamil Nadu'} • Zone Active</Text>
               <View style={S.statusTagRow}>
                 <View style={S.statusTag}>
                   <Text style={S.statusTagText}>HELMET REQ</Text>
                 </View>
-                <View style={[S.statusTag, { backgroundColor: 'rgba(6,182,212,0.15)' }]}>
+                <View style={[S.statusTag, { backgroundColor: 'rgba(2,132,199,0.12)' }]}>
                   <Text style={[S.statusTagText, { color: T.accentCyan }]}>SEATBELT OK</Text>
                 </View>
               </View>
@@ -221,7 +220,7 @@ export default function HomeScreen() {
           <Feather name="arrow-right-circle" size={20} color={T.accentRose} />
         </TouchableOpacity>
 
-        {/* ── RESTRUCTURED BENTO GRID MODULES ── */}
+        {/* ── BENTO GRID MODULES ── */}
         <Text style={S.sectionHeading}>COMMAND HUB & TOOLS</Text>
         
         <View style={S.bentoGridWrap}>
@@ -240,7 +239,7 @@ export default function HomeScreen() {
           {/* 2-Column Sub Grid */}
           <View style={S.bentoRow}>
             <TouchableOpacity style={S.bentoTileHalf} onPress={() => router.push('/settings/documents')} activeOpacity={0.85}>
-              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(6,182,212,0.15)' }]}>
+              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(2,132,199,0.1)' }]}>
                 <Ionicons name="folder-open-outline" size={20} color={T.accentCyan} />
               </View>
               <Text style={S.bentoTileTitle}>Doc Vault</Text>
@@ -248,7 +247,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={S.bentoTileHalf} onPress={() => router.push('/(tabs)/report')} activeOpacity={0.85}>
-              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(168,85,247,0.15)' }]}>
+              <View style={[S.bentoTileIconWrap, { backgroundColor: 'rgba(147,51,234,0.1)' }]}>
                 <Ionicons name="megaphone-outline" size={20} color={T.accentPurple} />
               </View>
               <Text style={S.bentoTileTitle}>File Incident</Text>
@@ -345,7 +344,7 @@ export default function HomeScreen() {
   );
 }
 
-// ── RESTRUCTURED STYLESHEET ──
+// ── CRISP LIGHT STYLESHEET ──
 const S = StyleSheet.create({
   container: { flex: 1, backgroundColor: T.bg },
   scrollBody: { padding: 20, paddingBottom: 110 },
@@ -355,74 +354,74 @@ const S = StyleSheet.create({
   driverProfileRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatarRing: { width: 42, height: 42, borderRadius: 21, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
   avatarInitial: { color: '#fff', fontWeight: '800', fontSize: 16 },
-  greetingSub: { color: T.textDim, fontSize: 10, fontWeight: '700', letterSpacing: 0.8 },
+  greetingSub: { color: T.textDim, fontSize: 10, fontWeight: '800', letterSpacing: 0.8 },
   driverNameText: { color: T.textMain, fontSize: 18, fontWeight: '800' },
-  notifBellBtn: { width: 40, height: 40, borderRadius: 14, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, justifyContent: 'center', alignItems: 'center' },
+  notifBellBtn: { width: 40, height: 40, borderRadius: 14, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.04, shadowRadius: 4 },
   badgeDot: { position: 'absolute', top: 10, right: 10, width: 8, height: 8, borderRadius: 4, backgroundColor: T.accentRose },
 
   /* HUD Hero Card */
-  hudHeroCard: { backgroundColor: T.panel, borderRadius: 24, borderWidth: 1, borderColor: T.panelBorder, padding: 20, marginBottom: 16 },
+  hudHeroCard: { backgroundColor: T.panel, borderRadius: 24, borderWidth: 1, borderColor: T.panelBorder, padding: 20, marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.04, shadowRadius: 10 },
   hudHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  liveBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, backgroundColor: 'rgba(16,185,129,0.1)' },
+  liveBadge: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, backgroundColor: 'rgba(5,150,105,0.08)' },
   livePulseDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: T.accentEmerald },
-  liveBadgeText: { fontSize: 10, fontWeight: '700', color: T.accentEmerald, letterSpacing: 0.5 },
+  liveBadgeText: { fontSize: 10, fontWeight: '800', color: T.accentEmerald, letterSpacing: 0.5 },
   hudMainStatsRow: { flexDirection: 'row', alignItems: 'center', gap: 20 },
-  gaugeWrap: { padding: 14, borderRadius: 18, backgroundColor: 'rgba(99,102,241,0.1)', alignItems: 'center', justifyContent: 'center', minWidth: 95 },
+  gaugeWrap: { padding: 14, borderRadius: 18, backgroundColor: 'rgba(79,70,229,0.08)', alignItems: 'center', justifyContent: 'center', minWidth: 95 },
   gaugeNumber: { fontSize: 28, fontWeight: '800', color: T.accentPrimary },
-  gaugeUnit: { fontSize: 9, fontWeight: '700', color: T.textMuted, marginTop: 2 },
+  gaugeUnit: { fontSize: 9, fontWeight: '800', color: T.textMuted, marginTop: 2 },
   hudGeoDetails: { flex: 1 },
   geoPlaceName: { fontSize: 18, fontWeight: '800', color: T.textMain, marginBottom: 2 },
-  geoRegionName: { fontSize: 12, color: T.textMuted, marginBottom: 10 },
+  geoRegionName: { fontSize: 12, color: T.textMuted, fontWeight: '600', marginBottom: 10 },
   statusTagRow: { flexDirection: 'row', gap: 6 },
-  statusTag: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: 'rgba(245,158,11,0.15)' },
-  statusTagText: { fontSize: 9, fontWeight: '700', color: T.accentAmber },
+  statusTag: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: 'rgba(217,119,6,0.12)' },
+  statusTagText: { fontSize: 9, fontWeight: '800', color: T.accentAmber },
 
   /* Emergency SOS Bar */
-  sosAlertBar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, backgroundColor: 'rgba(244,63,94,0.08)', borderWidth: 1, borderColor: 'rgba(244,63,94,0.2)', marginBottom: 24 },
-  sosIconCircle: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(244,63,94,0.15)', justifyContent: 'center', alignItems: 'center' },
+  sosAlertBar: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, backgroundColor: 'rgba(225,29,72,0.06)', borderWidth: 1, borderColor: 'rgba(225,29,72,0.2)', marginBottom: 24 },
+  sosIconCircle: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(225,29,72,0.12)', justifyContent: 'center', alignItems: 'center' },
   sosBarTitle: { fontSize: 13, fontWeight: '800', color: T.accentRose },
-  sosBarSub: { fontSize: 11, color: T.textMuted },
+  sosBarSub: { fontSize: 11, color: T.textMuted, fontWeight: '500' },
 
   /* Bento Grid */
-  sectionHeading: { fontSize: 12, fontWeight: '800', color: T.textDim, letterSpacing: 1, marginBottom: 14 },
+  sectionHeading: { fontSize: 11, fontWeight: '800', color: T.textDim, letterSpacing: 1, marginBottom: 14 },
   bentoGridWrap: { gap: 12, marginBottom: 24 },
-  bentoTileFull: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder },
-  bentoTileIconWrap: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(99,102,241,0.15)', justifyContent: 'center', alignItems: 'center' },
-  bentoTileTitle: { fontSize: 15, fontWeight: '700', color: T.textMain, marginBottom: 2 },
-  bentoTileSub: { fontSize: 12, color: T.textMuted },
+  bentoTileFull: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 6 },
+  bentoTileIconWrap: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(79,70,229,0.08)', justifyContent: 'center', alignItems: 'center' },
+  bentoTileTitle: { fontSize: 15, fontWeight: '800', color: T.textMain, marginBottom: 2 },
+  bentoTileSub: { fontSize: 12, color: T.textMuted, fontWeight: '500' },
   bentoRow: { flexDirection: 'row', gap: 12 },
-  bentoTileHalf: { flex: 1, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder },
+  bentoTileHalf: { flex: 1, padding: 16, borderRadius: 20, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 6 },
 
   /* Briefings Feed */
   briefHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  briefCardItem: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: 16, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, marginBottom: 10 },
-  briefIconBox: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(99,102,241,0.12)', justifyContent: 'center', alignItems: 'center' },
-  briefCardTitle: { fontSize: 14, fontWeight: '700', color: T.textMain, marginBottom: 2 },
-  briefCardDesc: { fontSize: 12, color: T.textMuted, lineHeight: 16 },
+  briefCardItem: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: 16, backgroundColor: T.panel, borderWidth: 1, borderColor: T.panelBorder, marginBottom: 10, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.03, shadowRadius: 4 },
+  briefIconBox: { width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(79,70,229,0.08)', justifyContent: 'center', alignItems: 'center' },
+  briefCardTitle: { fontSize: 14, fontWeight: '800', color: T.textMain, marginBottom: 2 },
+  briefCardDesc: { fontSize: 12, color: T.textMuted, lineHeight: 16, fontWeight: '500' },
 
   /* FLOATING AI FAB IN BOTTOM RIGHT CORNER */
   floatingAiFab: {
     position: 'absolute', bottom: 30, right: 20, zIndex: 999,
     width: 58, height: 58, borderRadius: 29, backgroundColor: T.accentPrimary,
     justifyContent: 'center', alignItems: 'center',
-    shadowColor: T.accentPrimary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.5, shadowRadius: 16, elevation: 12
+    shadowColor: T.accentPrimary, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 12
   },
 
   /* Chat Modal Widget */
   chatModalContainer: { flex: 1, justifyContent: 'flex-end' },
-  chatModalBox: { backgroundColor: T.panel, borderTopLeftRadius: 28, borderTopRightRadius: 28, borderWidth: 1, borderColor: T.panelBorder, maxHeight: '80%', minHeight: 440 },
-  chatHeaderBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderColor: T.panelBorder },
+  chatModalBox: { backgroundColor: '#ffffff', borderTopLeftRadius: 28, borderTopRightRadius: 28, borderWidth: 1, borderColor: T.panelBorder, maxHeight: '80%', minHeight: 440 },
+  chatHeaderBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderColor: T.panelBorder, backgroundColor: '#f8fafc' },
   chatBotIconCircle: { width: 32, height: 32, borderRadius: 10, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
   chatTitleText: { fontSize: 14, fontWeight: '800', color: T.textMain },
-  chatSubText: { fontSize: 11, color: T.accentEmerald },
+  chatSubText: { fontSize: 11, color: T.accentEmerald, fontWeight: '600' },
   chatScrollStream: { flex: 1 },
   msgRow: { maxWidth: '82%' },
   msgRowAi: { alignSelf: 'flex-start' },
   msgRowUser: { alignSelf: 'flex-end' },
-  chatBubbleText: { padding: 12, borderRadius: 16, fontSize: 13, lineHeight: 18 },
-  chatBubbleAi: { backgroundColor: 'rgba(255,255,255,0.06)', color: T.textMain, borderTopLeftRadius: 4 },
+  chatBubbleText: { padding: 12, borderRadius: 16, fontSize: 13, lineHeight: 18, fontWeight: '500' },
+  chatBubbleAi: { backgroundColor: '#f1f5f9', color: T.textMain, borderTopLeftRadius: 4 },
   chatBubbleUser: { backgroundColor: T.accentPrimary, color: '#fff', borderTopRightRadius: 4 },
-  chatFootRow: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 14, borderTopWidth: 1, borderColor: T.panelBorder },
-  chatTextInput: { flex: 1, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.04)', borderWidth: 1, borderColor: T.panelBorder, color: T.textMain, fontSize: 13 },
+  chatFootRow: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 14, borderTopWidth: 1, borderColor: T.panelBorder, backgroundColor: '#f8fafc' },
+  chatTextInput: { flex: 1, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 14, backgroundColor: '#ffffff', borderWidth: 1, borderColor: T.panelBorder, color: T.textMain, fontSize: 13, fontWeight: '500' },
   chatSendBtn: { width: 38, height: 38, borderRadius: 12, backgroundColor: T.accentPrimary, justifyContent: 'center', alignItems: 'center' },
 });

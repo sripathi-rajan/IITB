@@ -5,10 +5,10 @@ import { Platform, View, StyleSheet } from 'react-native';
 import { useSettings } from '../../hooks/useSettings';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const ACCENT = '#6366f1';
-const INACTIVE = '#475569';
-const BG = '#07070f';
-const BORDER = 'rgba(255,255,255,0.08)';
+const ACCENT = '#4f46e5';
+const INACTIVE = '#64748b';
+const BG = '#ffffff';
+const BORDER = '#e2e8f0';
 
 export default function TabLayout() {
   const { t } = useSettings();
@@ -22,14 +22,17 @@ export default function TabLayout() {
           tabBarInactiveTintColor: INACTIVE,
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            backgroundColor: '#0d0d1a',
+            backgroundColor: BG,
             borderTopColor: BORDER,
             borderTopWidth: 1,
             height: Platform.OS === 'ios' ? 80 + insets.bottom : 66 + insets.bottom,
             paddingBottom: Platform.OS === 'ios' ? insets.bottom + 6 : insets.bottom + 10,
             paddingTop: 8,
-            elevation: 0,
-            shadowOpacity: 0,
+            elevation: 8,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 6,
           },
           tabBarItemStyle: {
             justifyContent: 'center',
@@ -39,7 +42,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarLabelStyle: {
             fontSize: 10,
-            fontWeight: '600',
+            fontWeight: '700',
             letterSpacing: 0.3,
             marginTop: 2,
           },
@@ -97,7 +100,7 @@ export default function TabLayout() {
           }}
         />
 
-        {/* ── Hidden screens (not in tab bar) ── */}
+        {/* ── Hidden screens ── */}
         <Tabs.Screen name="ask"    options={{ href: null }} />
         <Tabs.Screen name="zones"  options={{ href: null }} />
         <Tabs.Screen name="report" options={{ href: null }} />
@@ -109,7 +112,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#07070f',
+    backgroundColor: '#f8fafc',
   },
   iconWrap: {
     width: 28,
@@ -119,6 +122,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   iconWrapActive: {
-    backgroundColor: 'rgba(99,102,241,0.12)',
+    backgroundColor: 'rgba(79,70,229,0.1)',
   },
 });

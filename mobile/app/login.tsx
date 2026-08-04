@@ -587,7 +587,7 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#07070f' },
+  container: { flex: 1, backgroundColor: '#f8fafc' },
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 24,
@@ -610,39 +610,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
-  logoIconText: { color: '#6366f1', fontWeight: '700', fontSize: 15 },
-  logoText: { fontSize: 22, fontWeight: '700', color: '#f1f5f9', letterSpacing: -0.5 },
+  logoIconText: { color: '#4f46e5', fontWeight: '800', fontSize: 15 },
+  logoText: { fontSize: 22, fontWeight: '800', color: '#0f172a', letterSpacing: -0.5 },
 
   title: {
     fontSize: 28,
-    fontWeight: '700',
-    color: '#f1f5f9',
+    fontWeight: '800',
+    color: '#0f172a',
     textAlign: 'center',
     marginBottom: 6,
   },
   subtitle: {
     fontSize: 15,
-    color: '#94a3b8',
+    color: '#475569',
     textAlign: 'center',
     marginBottom: 28,
+    fontWeight: '500',
   },
 
   googleButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: '#e2e8f0',
     borderRadius: 12,
     paddingVertical: 14,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
   },
-  googleButtonText: { fontSize: 15, fontWeight: '500', color: '#f1f5f9' },
+  googleButtonText: { fontSize: 15, fontWeight: '600', color: '#0f172a' },
 
   dividerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
-  divider: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.08)' },
-  dividerText: { marginHorizontal: 14, color: '#475569', fontSize: 13 },
+  divider: { flex: 1, height: 1, backgroundColor: '#e2e8f0' },
+  dividerText: { marginHorizontal: 14, color: '#64748b', fontSize: 13, fontWeight: '500' },
 
   errorBanner: {
     flexDirection: 'row',
@@ -660,16 +665,16 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: '#e2e8f0',
     borderRadius: 12,
     paddingHorizontal: 14,
     marginBottom: 14,
   },
-  inputWrapperError: { borderColor: '#ef4444' },
+  inputWrapperError: { borderColor: '#e11d48' },
   inputIcon: { marginRight: 10 },
-  input: { flex: 1, paddingVertical: 14, fontSize: 15, color: '#f1f5f9' },
+  input: { flex: 1, paddingVertical: 14, fontSize: 15, color: '#0f172a', fontWeight: '500' },
   fieldError: {
     color: '#dc2626',
     fontSize: 12,
@@ -714,7 +719,7 @@ const styles = StyleSheet.create({
   },
 
   primaryButton: {
-    backgroundColor: '#6366f1',
+    backgroundColor: '#4f46e5',
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -722,6 +727,10 @@ const styles = StyleSheet.create({
     marginTop: 6,
     marginBottom: 22,
     minHeight: 52,
+    shadowColor: '#4f46e5',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
   },
   primaryButtonDisabled: { opacity: 0.65 },
   primaryButtonText: { color: '#fff', fontSize: 16, fontWeight: '700' },

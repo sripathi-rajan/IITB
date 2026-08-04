@@ -935,7 +935,7 @@ export default function FinesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#07070f',
+    backgroundColor: '#f8fafc',
   },
   header: {
     flexDirection: 'row',
@@ -943,23 +943,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: '#0d0d1a',
+    borderBottomColor: '#e2e8f0',
+    backgroundColor: '#ffffff',
   },
   backButton: {
     padding: 4,
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#f1f5f9',
+    fontWeight: '800',
+    color: '#0f172a',
     marginLeft: 12,
     flex: 1,
   },
   locationPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(99,102,241,0.15)',
+    backgroundColor: 'rgba(79,70,229,0.08)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 16,
@@ -967,7 +967,7 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#6366f1',
+    color: '#4f46e5',
     marginLeft: 4,
   },
   content: {
@@ -979,27 +979,28 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#94a3b8',
+    color: '#475569',
     lineHeight: 20,
     marginBottom: 24,
+    fontWeight: '500',
   },
   searchCard: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#e2e8f0',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.04,
     shadowRadius: 8,
-    elevation: 4,
+    elevation: 3,
     marginBottom: 20,
   },
   inputLabel: {
     fontSize: 11,
-    fontWeight: '700',
-    color: '#475569',
+    fontWeight: '800',
+    color: '#64748b',
     marginBottom: 8,
     letterSpacing: 0.5,
   },
@@ -1007,12 +1008,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: '#e2e8f0',
     borderRadius: 12,
     paddingHorizontal: 12,
     height: 48,
     marginBottom: 16,
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    backgroundColor: '#f8fafc',
   },
   inputIcon: {
     marginRight: 10,
@@ -1020,13 +1021,13 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 15,
-    color: '#f1f5f9',
+    color: '#0f172a',
     height: '100%',
     padding: 0,
     fontWeight: '600',
   },
   searchButton: {
-    backgroundColor: '#6366f1',
+    backgroundColor: '#4f46e5',
     borderRadius: 12,
     height: 48,
     flexDirection: 'row',
@@ -1074,12 +1075,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   profileCard: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#e2e8f0',
     marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
   },
   profileHeader: {
     flexDirection: 'row',
@@ -1092,14 +1097,14 @@ const styles = StyleSheet.create({
   resultPlate: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f1f5f9',
+    color: '#0f172a',
     letterSpacing: 0.5,
   },
   resultOwner: {
     fontSize: 13,
-    color: '#94a3b8',
+    color: '#475569',
     marginTop: 4,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   resultType: {
     fontSize: 12,
@@ -1129,7 +1134,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    backgroundColor: '#e2e8f0',
     marginVertical: 14,
   },
   totalFineRow: {
@@ -1148,11 +1153,11 @@ const styles = StyleSheet.create({
     color: '#ef4444',
   },
   challanListContainer: {
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#e2e8f0',
     marginBottom: 16,
   },
   sectionSubTitle: {
@@ -1190,7 +1195,7 @@ const styles = StyleSheet.create({
   violationTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#f1f5f9',
+    color: '#0f172a',
   },
   violationLoc: {
     fontSize: 12,
@@ -1268,7 +1273,7 @@ const styles = StyleSheet.create({
   rulesSectionTitle: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#f1f5f9',
+    color: '#0f172a',
     marginLeft: 8,
   },
   gridContainer: {
@@ -1278,17 +1283,17 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#e2e8f0',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 2,
   },
   iconWrapper: {
     width: 40,
@@ -1301,7 +1306,7 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#f1f5f9',
+    color: '#0f172a',
     marginBottom: 4,
   },
   categorySubtitle: {
@@ -1325,11 +1330,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#0d0d1a',
+    backgroundColor: '#ffffff',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: '#e2e8f0',
     padding: 24,
     maxHeight: '80%',
     minHeight: 450,
@@ -1355,22 +1360,23 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#f1f5f9',
+    color: '#0f172a',
   },
   modalScroll: {
     marginBottom: 20,
   },
   modalDesc: {
     fontSize: 13,
-    color: '#94a3b8',
+    color: '#475569',
     lineHeight: 18,
     marginBottom: 20,
+    fontWeight: '500',
   },
   accordionItem: {
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    backgroundColor: '#f8fafc',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#e2e8f0',
     marginBottom: 12,
     overflow: 'hidden',
   },
@@ -1387,7 +1393,7 @@ const styles = StyleSheet.create({
   jurisdictionName: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#f1f5f9',
+    color: '#0f172a',
   },
   accordionPenalty: {
     fontSize: 12,
@@ -1396,9 +1402,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   accordionDetails: {
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: '#ffffff',
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.06)',
+    borderTopColor: '#e2e8f0',
     padding: 16,
   },
   detailsLabel: {
@@ -1410,8 +1416,9 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     fontSize: 13,
-    color: '#94a3b8',
+    color: '#475569',
     lineHeight: 18,
+    fontWeight: '500',
   },
   jurisdictionRow: {
     flexDirection: 'row',
@@ -1504,16 +1511,16 @@ const styles = StyleSheet.create({
     color: '#1f2937',
   },
   calculatorCard: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: '#ffffff',
     borderRadius: 24,
     padding: 18,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    shadowColor: '#6366f1',
+    borderColor: '#e2e8f0',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 4,
+    shadowOpacity: 0.04,
+    shadowRadius: 10,
+    elevation: 3,
   },
   jurisdictionPin: {
     width: 28,
