@@ -62,7 +62,7 @@ function RootNavigator() {
   // Show a blank splash while we're resolving the auth state from storage
   if (isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: '#FAF8F5', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: '#07070f', justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#C9621D" />
       </View>
     );

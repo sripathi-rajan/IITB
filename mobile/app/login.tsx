@@ -587,7 +587,7 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FBF7F0' },
+  container: { flex: 1, backgroundColor: '#07070f' },
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 24,
@@ -604,25 +604,25 @@ const styles = StyleSheet.create({
   logoIcon: {
     width: 36,
     height: 36,
-    backgroundColor: '#1B1A17',
+    backgroundColor: '#6366f1',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
   },
-  logoIconText: { color: '#C9621D', fontWeight: '700', fontSize: 15 },
-  logoText: { fontSize: 22, fontWeight: '700', color: '#1B1A17', letterSpacing: -0.5 },
+  logoIconText: { color: '#6366f1', fontWeight: '700', fontSize: 15 },
+  logoText: { fontSize: 22, fontWeight: '700', color: '#f1f5f9', letterSpacing: -0.5 },
 
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#1B1A17',
+    color: '#f1f5f9',
     textAlign: 'center',
     marginBottom: 6,
   },
   subtitle: {
     fontSize: 15,
-    color: '#6b7280',
+    color: '#94a3b8',
     textAlign: 'center',
     marginBottom: 28,
   },
@@ -631,45 +631,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 1.5,
-    borderColor: '#e5e7eb',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     borderRadius: 12,
     paddingVertical: 14,
     marginBottom: 20,
   },
-  googleButtonText: { fontSize: 15, fontWeight: '500', color: '#374151' },
+  googleButtonText: { fontSize: 15, fontWeight: '500', color: '#f1f5f9' },
 
   dividerRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
-  divider: { flex: 1, height: 1, backgroundColor: '#e5e7eb' },
-  dividerText: { marginHorizontal: 14, color: '#9ca3af', fontSize: 13 },
+  divider: { flex: 1, height: 1, backgroundColor: 'rgba(255,255,255,0.08)' },
+  dividerText: { marginHorizontal: 14, color: '#475569', fontSize: 13 },
 
   errorBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fef2f2',
+    backgroundColor: 'rgba(239,68,68,0.1)',
     borderWidth: 1,
-    borderColor: '#fecaca',
+    borderColor: 'rgba(239,68,68,0.25)',
     borderRadius: 10,
     padding: 12,
     marginBottom: 16,
     gap: 8,
   },
-  errorBannerText: { flex: 1, color: '#dc2626', fontSize: 13 },
+  errorBannerText: { flex: 1, color: '#ef4444', fontSize: 13 },
 
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 1.5,
-    borderColor: '#e5e7eb',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     borderRadius: 12,
     paddingHorizontal: 14,
     marginBottom: 14,
   },
-  inputWrapperError: { borderColor: '#dc2626' },
+  inputWrapperError: { borderColor: '#ef4444' },
   inputIcon: { marginRight: 10 },
-  input: { flex: 1, paddingVertical: 14, fontSize: 15, color: '#1f2937' },
+  input: { flex: 1, paddingVertical: 14, fontSize: 15, color: '#f1f5f9' },
   fieldError: {
     color: '#dc2626',
     fontSize: 12,
@@ -683,7 +683,7 @@ const styles = StyleSheet.create({
   },
   genderLabel: {
     fontSize: 13,
-    color: '#6b7280',
+    color: '#94a3b8',
     marginBottom: 8,
     marginLeft: 4,
     fontWeight: '500'
@@ -693,28 +693,28 @@ const styles = StyleSheet.create({
     paddingBottom: 4
   },
   genderChip: {
-    backgroundColor: '#fff',
-    borderWidth: 1.5,
-    borderColor: '#e5e7eb',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   genderChipActive: {
-    borderColor: '#C9621D',
-    backgroundColor: '#fff7ed',
+    borderColor: '#6366f1',
+    backgroundColor: 'rgba(99,102,241,0.15)',
   },
   genderChipText: {
-    color: '#6b7280',
+    color: '#94a3b8',
     fontSize: 14,
     fontWeight: '500',
   },
   genderChipTextActive: {
-    color: '#C9621D',
+    color: '#6366f1',
   },
 
   primaryButton: {
-    backgroundColor: '#C9621D',
+    backgroundColor: '#6366f1',
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -727,8 +727,8 @@ const styles = StyleSheet.create({
   primaryButtonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
 
   toggleRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
-  toggleText: { color: '#6b7280', fontSize: 14 },
-  toggleLink: { color: '#C9621D', fontSize: 14, fontWeight: '700' },
+  toggleText: { color: '#94a3b8', fontSize: 14 },
+  toggleLink: { color: '#6366f1', fontSize: 14, fontWeight: '700' },
 
   headerRow: {
     flexDirection: 'row',
@@ -741,15 +741,15 @@ const styles = StyleSheet.create({
   headerButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f3f4f6',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   headerButtonText: {
-    color: '#4b5563',
+    color: '#94a3b8',
     fontSize: 13,
     fontWeight: '600',
     marginLeft: 6,

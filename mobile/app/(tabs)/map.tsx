@@ -229,7 +229,7 @@ export default function MapScreen() {
   if (loading || !location) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#d97706" />
+        <ActivityIndicator size="large" color="#6366f1" />
         <Text style={styles.loadingText}>Loading Map & Geofences...</Text>
       </View>
     );
@@ -362,11 +362,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#07070f',
   },
   loadingText: {
     marginTop: 10,
-    color: '#666',
+    color: '#94a3b8',
   },
   filterContainer: {
     position: 'absolute',
@@ -381,40 +381,43 @@ const styles = StyleSheet.create({
   filterButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(13,13,26,0.92)',
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: 'rgba(255,255,255,0.12)',
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
   },
   filterText: {
     fontSize: 13,
-    color: '#374151',
+    color: '#94a3b8',
     fontWeight: '500',
   },
   panel: {
     position: 'absolute',
     left: 20,
     right: 20,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(13,13,26,0.95)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     padding: 20,
-    borderRadius: 16,
+    borderRadius: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 12,
   },
   zoneTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#f1f5f9',
+    letterSpacing: 0.5,
   },
   speedLimit: {
     fontSize: 16,
@@ -423,8 +426,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   rules: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 13,
+    color: '#94a3b8',
     marginTop: 5,
+    lineHeight: 18,
   },
 });

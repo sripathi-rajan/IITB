@@ -935,7 +935,7 @@ export default function FinesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#07070f',
   },
   header: {
     flexDirection: 'row',
@@ -943,8 +943,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f3f0ea',
-    backgroundColor: '#fff',
+    borderBottomColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: '#0d0d1a',
   },
   backButton: {
     padding: 4,
@@ -952,14 +952,14 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1c1c1c',
+    color: '#f1f5f9',
     marginLeft: 12,
     flex: 1,
   },
   locationPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fef3c7',
+    backgroundColor: 'rgba(99,102,241,0.15)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 16,
@@ -967,7 +967,7 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#d97706',
+    color: '#6366f1',
     marginLeft: 4,
   },
   content: {
@@ -979,27 +979,27 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#94a3b8',
     lineHeight: 20,
     marginBottom: 24,
   },
   searchCard: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#f3f0ea',
+    borderColor: 'rgba(255,255,255,0.08)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.03,
+    shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
     marginBottom: 20,
   },
   inputLabel: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#6b7280',
+    color: '#475569',
     marginBottom: 8,
     letterSpacing: 0.5,
   },
@@ -1007,11 +1007,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: 'rgba(255,255,255,0.1)',
     borderRadius: 12,
     paddingHorizontal: 12,
     height: 48,
     marginBottom: 16,
+    backgroundColor: 'rgba(255,255,255,0.04)',
   },
   inputIcon: {
     marginRight: 10,
@@ -1019,13 +1020,13 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 15,
-    color: '#1f2937',
+    color: '#f1f5f9',
     height: '100%',
     padding: 0,
     fontWeight: '600',
   },
   searchButton: {
-    backgroundColor: '#d97706',
+    backgroundColor: '#6366f1',
     borderRadius: 12,
     height: 48,
     flexDirection: 'row',
@@ -1033,7 +1034,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchButtonDisabled: {
-    backgroundColor: '#fcd34d',
+    backgroundColor: 'rgba(99,102,241,0.4)',
   },
   searchButtonText: {
     color: '#fff',
@@ -1048,7 +1049,7 @@ const styles = StyleSheet.create({
   loaderText: {
     marginTop: 12,
     fontSize: 14,
-    color: '#6b7280',
+    color: '#94a3b8',
     fontWeight: '500',
   },
   resultContainer: {
@@ -1073,11 +1074,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   profileCard: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#f3f0ea',
+    borderColor: 'rgba(255,255,255,0.08)',
     marginBottom: 16,
   },
   profileHeader: {
@@ -1091,12 +1092,12 @@ const styles = StyleSheet.create({
   resultPlate: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#1c1c1c',
+    color: '#f1f5f9',
     letterSpacing: 0.5,
   },
   resultOwner: {
     fontSize: 13,
-    color: '#4b5563',
+    color: '#94a3b8',
     marginTop: 4,
     fontWeight: '500',
   },
@@ -1128,7 +1129,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#f3f0ea',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     marginVertical: 14,
   },
   totalFineRow: {
@@ -1147,11 +1148,11 @@ const styles = StyleSheet.create({
     color: '#ef4444',
   },
   challanListContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.04)',
     borderRadius: 20,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#f3f0ea',
+    borderColor: 'rgba(255,255,255,0.08)',
     marginBottom: 16,
   },
   sectionSubTitle: {
@@ -1189,7 +1190,7 @@ const styles = StyleSheet.create({
   violationTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1f2937',
+    color: '#f1f5f9',
   },
   violationLoc: {
     fontSize: 12,
@@ -1267,7 +1268,7 @@ const styles = StyleSheet.create({
   rulesSectionTitle: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#1c1c1c',
+    color: '#f1f5f9',
     marginLeft: 8,
   },
   gridContainer: {
@@ -1277,17 +1278,17 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderColor: 'rgba(255,255,255,0.08)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.02,
-    shadowRadius: 4,
-    elevation: 1,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
   },
   iconWrapper: {
     width: 40,
@@ -1300,7 +1301,7 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1F2937',
+    color: '#f1f5f9',
     marginBottom: 4,
   },
   categorySubtitle: {
@@ -1320,13 +1321,15 @@ const styles = StyleSheet.create({
   // Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#0d0d1a',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
     padding: 24,
     maxHeight: '80%',
     minHeight: 450,
@@ -1352,22 +1355,22 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#1f2937',
+    color: '#f1f5f9',
   },
   modalScroll: {
     marginBottom: 20,
   },
   modalDesc: {
     fontSize: 13,
-    color: '#6b7280',
+    color: '#94a3b8',
     lineHeight: 18,
     marginBottom: 20,
   },
   accordionItem: {
-    backgroundColor: '#FAF8F5',
+    backgroundColor: 'rgba(255,255,255,0.04)',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#F3F4F6',
+    borderColor: 'rgba(255,255,255,0.08)',
     marginBottom: 12,
     overflow: 'hidden',
   },
@@ -1381,10 +1384,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 12,
   },
-  accordionAct: {
-    fontSize: 15,
+  jurisdictionName: {
+    fontSize: 14,
     fontWeight: '700',
-    color: '#1F2937',
+    color: '#f1f5f9',
   },
   accordionPenalty: {
     fontSize: 12,
@@ -1393,9 +1396,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   accordionDetails: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.03)',
     borderTopWidth: 1,
-    borderTopColor: '#F3F4F6',
+    borderTopColor: 'rgba(255,255,255,0.06)',
     padding: 16,
   },
   detailsLabel: {
@@ -1407,7 +1410,7 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     fontSize: 13,
-    color: '#4B5563',
+    color: '#94a3b8',
     lineHeight: 18,
   },
   jurisdictionRow: {
@@ -1501,16 +1504,16 @@ const styles = StyleSheet.create({
     color: '#1f2937',
   },
   calculatorCard: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderRadius: 24,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#f3f0ea',
-    shadowColor: '#d97706',
+    borderColor: 'rgba(255,255,255,0.1)',
+    shadowColor: '#6366f1',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.08,
     shadowRadius: 16,
-    elevation: 3,
+    elevation: 4,
   },
   jurisdictionPin: {
     width: 28,

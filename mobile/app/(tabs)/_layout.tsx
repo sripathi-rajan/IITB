@@ -5,6 +5,11 @@ import { Platform, View, StyleSheet } from 'react-native';
 import { useSettings } from '../../hooks/useSettings';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+const ACCENT = '#6366f1';
+const INACTIVE = '#475569';
+const BG = '#07070f';
+const BORDER = 'rgba(255,255,255,0.08)';
+
 export default function TabLayout() {
   const { t } = useSettings();
   const insets = useSafeAreaInsets();
@@ -13,15 +18,14 @@ export default function TabLayout() {
     <View style={styles.container}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#d97706',
-          tabBarInactiveTintColor: '#9ca3af',
+          tabBarActiveTintColor: ACCENT,
+          tabBarInactiveTintColor: INACTIVE,
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            backgroundColor: '#fff',
-            borderTopColor: '#e5e7eb',
-            // Content box = height - paddingTop - paddingBottom must fit the
-            // 24px icon + ~16px label. Give it ~54px of room so labels never clip.
-            height: Platform.OS === 'ios' ? 84 + insets.bottom : 72 + insets.bottom,
+            backgroundColor: '#0d0d1a',
+            borderTopColor: BORDER,
+            borderTopWidth: 1,
+            height: Platform.OS === 'ios' ? 80 + insets.bottom : 66 + insets.bottom,
             paddingBottom: Platform.OS === 'ios' ? insets.bottom + 6 : insets.bottom + 10,
             paddingTop: 8,
             elevation: 0,
@@ -34,81 +38,68 @@ export default function TabLayout() {
           },
           headerShown: false,
           tabBarLabelStyle: {
-            fontSize: 11,
-            lineHeight: 14,
+            fontSize: 10,
+            fontWeight: '600',
+            letterSpacing: 0.3,
             marginTop: 2,
           },
         }}
       >
+        {/* Home */}
         <Tabs.Screen
           name="index"
           options={{
-            title: t('tab_home'),
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="home-outline" size={24} color={color} />
+            title: t('tab_home') || 'Home',
+            tabBarIcon: ({ color, focused }) => (
+              <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+                <Ionicons name={focused ? 'home' : 'home-outline'} size={22} color={color} />
               </View>
             ),
           }}
         />
-        <Tabs.Screen
-          name="ask"
-          options={{
-            title: t('tab_ask'),
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="chatbubble-outline" size={24} color={color} />
-              </View>
-            ),
-          }}
-        />
+
+        {/* Fines & Rules */}
         <Tabs.Screen
           name="fines"
           options={{
             title: 'Fines & Rules',
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="document-text-outline" size={24} color={color} />
+            tabBarIcon: ({ color, focused }) => (
+              <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+                <Ionicons name={focused ? 'document-text' : 'document-text-outline'} size={22} color={color} />
               </View>
             ),
           }}
         />
-        <Tabs.Screen
-          name="zones"
-          options={{
-            href: null,
-            title: t('tab_rules'),
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="book-outline" size={24} color={color} />
-              </View>
-            ),
-          }}
-        />
+
+        {/* Map */}
         <Tabs.Screen
           name="map"
           options={{
-            title: t('tab_map'),
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="map-outline" size={24} color={color} />
+            title: t('tab_map') || 'Map',
+            tabBarIcon: ({ color, focused }) => (
+              <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+                <Ionicons name={focused ? 'map' : 'map-outline'} size={22} color={color} />
               </View>
             ),
           }}
         />
+
+        {/* Settings / Profile */}
         <Tabs.Screen
           name="settings"
           options={{
-            title: t('tab_you'),
-            tabBarIcon: ({ color }) => (
-              <View style={{ width: 24, height: 24, justifyContent: 'center', alignItems: 'center' }}>
-                <Ionicons name="person-outline" size={24} color={color} />
+            title: t('tab_you') || 'You',
+            tabBarIcon: ({ color, focused }) => (
+              <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+                <Ionicons name={focused ? 'person' : 'person-outline'} size={22} color={color} />
               </View>
             ),
           }}
         />
-        
-        {/* Hide tabs that aren't in the bottom bar */}
+
+        {/* ── Hidden screens (not in tab bar) ── */}
+        <Tabs.Screen name="ask"    options={{ href: null }} />
+        <Tabs.Screen name="zones"  options={{ href: null }} />
         <Tabs.Screen name="report" options={{ href: null }} />
       </Tabs>
     </View>
@@ -118,6 +109,16 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF8F5',
+    backgroundColor: '#07070f',
+  },
+  iconWrap: {
+    width: 28,
+    height: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  iconWrapActive: {
+    backgroundColor: 'rgba(99,102,241,0.12)',
   },
 });
